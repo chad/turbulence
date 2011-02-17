@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+require 'chuggle'
+p Chuggle.new(ARGV.first).churn
+p Chuggle.new(ARGV.first).flog
