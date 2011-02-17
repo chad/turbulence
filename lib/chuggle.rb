@@ -15,6 +15,7 @@ class Chuggle
   end
 
   def churn
+    # borrowed from @coreyhaines
     raw = `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)
     raw.select do |count, filename|
       filename =~ /\.rb$/
