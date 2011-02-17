@@ -6,11 +6,11 @@ Gem::Specification.new do |s|
   s.name        = "chuggle"
   s.version     = Chuggle::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["TODO: Write your name"]
-  s.email       = ["TODO: Write your email address"]
-  s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.authors     = ["Chad Fowler"]
+  s.email       = ["chad@chadfowler.com"]
+  s.homepage    = "http://chadfowler.com"
+  s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
+  s.description = %q{Based on this http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2}
 
   s.rubyforge_project = "chuggle"
 
