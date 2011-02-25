@@ -1,13 +1,13 @@
 <html>
 <head>
-	<script src="vendor/jquery.min.js"></script>	
+	<script src="vendor/jquery.min.js"></script>
 	<script src="vendor/highcharts.js"></script>
 	<script src="cc.js"></script>
   <script>
 $(document).ready(function() {
    var chart = new Highcharts.Chart({
       chart: {
-         renderTo: 'container', 
+         renderTo: 'container',
          defaultSeriesType: 'scatter',
          zoomType: 'xy'
       },
@@ -31,6 +31,11 @@ $(document).ready(function() {
             text: 'Complexity'
          }
       },
+      tooltip: {
+        formatter: function(item) {
+          return this.point.filename;
+        }
+      },
 
       plotOptions: {
          scatter: {
@@ -53,13 +58,13 @@ $(document).ready(function() {
          }
       }
    });
-   
+
   chart.addSeries({
     type: 'scatter',
     data: chuggleGraphData
   });
 });
-   
+
   </script>
 </head>
 <body>
