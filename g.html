@@ -1,0 +1,69 @@
+<html>
+<head>
+	<script src="vendor/jquery.min.js"></script>	
+	<script src="vendor/highcharts.js"></script>
+	<script src="cc.js"></script>
+  <script>
+$(document).ready(function() {
+   var chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container', 
+         defaultSeriesType: 'scatter',
+         zoomType: 'xy'
+      },
+      title: {
+         text: 'Files :)'
+      },
+      subtitle: {
+         text: 'Source: Heinz  2003'
+      },
+      xAxis: {
+         title: {
+            enabled: true,
+            text: 'Churn'
+         },
+         startOnTick: true,
+         endOnTick: true,
+         showLastLabel: true
+      },
+      yAxis: {
+         title: {
+            text: 'Complexity'
+         }
+      },
+
+      plotOptions: {
+         scatter: {
+            marker: {
+               radius: 5,
+               states: {
+                  hover: {
+                     enabled: true,
+                     lineColor: 'rgb(100,100,100)'
+                  }
+               }
+            },
+            states: {
+               hover: {
+                  marker: {
+                     enabled: false
+                  }
+               }
+            }
+         }
+      }
+   });
+   
+  chart.addSeries({
+    type: 'scatter',
+    data: chuggleGraphData
+  });
+});
+   
+  </script>
+</head>
+<body>
+	<div id='container'>
+	</div>
+	</body>
+</html>
