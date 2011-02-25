@@ -1,9 +1,14 @@
 #!/usr/bin/env ruby
 require 'chuggle'
+require 'chuggle/scatter_plot_generator'
 require 'pp'
 unless ARGV.first && File.directory?(ARGV.first)
   STDERR.puts "Usage:"
   STDERR.puts "chuggle /path/to/git/repo/with/ruby/files"
   exit
 end
-pp Chuggle.new(ARGV.first).metrics
+
+File.open("cc.js", "w") do |f| 
+  f.write Chuggle::ScatterPlotGenerator.from(Chuggle.new(ARGV.first).metrics)
+end
+

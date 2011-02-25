@@ -16,7 +16,7 @@ class Chuggle
     Dir.chdir(dir) do
       @ruby_files = Dir["**/*\.rb"]
       churn
-      flog
+      complexity
     end
   end
 
@@ -26,13 +26,13 @@ class Chuggle
     end
   end
 
-  def flog
+  def complexity
     flogger = Flog.new
     @ruby_files.each do |filename|
       flogger.flog filename
       reporter = Reporter.new
       flogger.report(reporter)
-      metrics_for(filename)[:flog] = reporter.average
+      metrics_for(filename)[:complexity] = reporter.average
     end 
   end
   
