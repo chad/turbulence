@@ -43,7 +43,7 @@ class Chuggle
   private
     def changes_by_ruby_file
       changes_by_file.select do |count, filename|
-        filename =~ /\.rb$/
+        filename =~ /\.rb$/ && File.exist?(filename)
       end
     end
     
