@@ -36,8 +36,7 @@ class Chuggle
       flogger.flog filename
       reporter = Reporter.new
       flogger.report(reporter)
-      score = reporter.average
-      metrics_for(filename)[:flog] = score
+      metrics_for(filename)[:flog] = reporter.average
     end 
   end
   
