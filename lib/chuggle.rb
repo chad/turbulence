@@ -29,10 +29,23 @@ class Chuggle
   def complexity
     flogger = Flog.new
     @ruby_files.each do |filename|
-      flogger.flog filename
-      reporter = Reporter.new
-      flogger.report(reporter)
-      metrics_for(filename)[:complexity] = reporter.average
+      begin
+        flogger.flog filename
+        reporter = Reporter.new
+        flogger.report(reporter)
+        metrics_for(filename)[:complexity] = reporter.average
+      rescue SyntaxError => e
+        STDERR.puts "#{e}: #{filename}"
+        
+      rescue Racc::ParseError   => e
+        STDERR.puts "#{e}: #{filename}"
+        
+      rescue RuntimeError => e
+        STDERR.puts "#{e}: #{filename}"
+      rescue ArgumentError   => e  
+        STDERR.puts "#{e}: #{filename}"
+        
+      end
     end 
   end
   
