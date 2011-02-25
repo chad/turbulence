@@ -2,6 +2,12 @@ require 'flog'
 require 'stringio'
 
 class Chuggle
+  class Reporter < StringIO
+    def average
+      Float(string.scan(/^\s+([^:]+).*average$/).flatten.first)
+    end
+  end
+  
   attr_reader :dir
   attr_reader :metrics
   def initialize(dir)
@@ -28,9 +34,9 @@ class Chuggle
     flogger = Flog.new
     @ruby_files.each do |filename|
       flogger.flog filename
-      report = StringIO.new
-      flogger.report(report)
-      score = Float(report.string.scan(/^\s+([^:]+).*average$/).flatten.first)
+      reporter = Reporter.new
+      flogger.report(reporter)
+      score = reporter.average
       metrics_for(filename)[:flog] = score
     end 
   end
