@@ -15,7 +15,10 @@ $(document).ready(function() {
          text: 'Files :)'
       },
       subtitle: {
-         text: 'Source: Heinz  2003'
+         text: 'Metrics that make you happy'
+      },
+      legend:{
+        enabled: false
       },
       xAxis: {
          title: {
@@ -32,8 +35,9 @@ $(document).ready(function() {
          }
       },
       tooltip: {
-        formatter: function(item) {
-          return this.point.filename;
+        formatter: function() {
+          var item = this.point;
+          return item.filename + "<br/>" + "churn: " + item.x + "<br/>" + "complexity: " + item.y;
         }
       },
 
