@@ -21,11 +21,7 @@ class Chuggle
   end
 
   def churn
-    # borrowed from @coreyhaines
-    raw = `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)
-    raw.select do |count, filename|
-      filename =~ /\.rb$/
-    end.each do |count, filename|
+    changes_by_ruby_file.each do |count, filename|
       metrics_for(filename)[:churn] = Integer(count)
     end
   end
@@ -43,4 +39,16 @@ class Chuggle
   def metrics_for(filename)
     @metrics[filename] ||= {}
   end
+  
+  private
+    def changes_by_ruby_file
+      changes_by_file.select do |count, filename|
+        filename =~ /\.rb$/
+      end
+    end
+    
+    def changes_by_file
+      # borrowed from @coreyhaines
+      `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)
+    end
 end
