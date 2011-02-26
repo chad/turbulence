@@ -6,8 +6,8 @@ Gem::Specification.new do |s|
   s.name        = "chuggle"
   s.version     = Chuggle::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ["Chad Fowler"]
-  s.email       = ["chad@chadfowler.com"]
+  s.authors     = ["Chad Fowler", "Michael Feathers", "Corey Haines"]
+  s.email       = ["chad@chadfowler.com", "mfeathers@obtiva.com", "coreyhaines@gmail.com"]
   s.homepage    = "http://chadfowler.com"
   s.add_dependency "flog", "= 2.5.0"
   s.add_dependency "json", "= 1.4.6"
