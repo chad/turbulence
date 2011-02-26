@@ -7,7 +7,7 @@ class Chuggle
       Float(string.scan(/^\s+([^:]+).*average$/).flatten.first)
     end
   end
-  
+
   attr_reader :dir
   attr_reader :metrics
   def initialize(dir)
@@ -31,27 +31,29 @@ class Chuggle
     flogger = Flog.new
     @ruby_files.each do |filename|
       print "."
-      
+
       begin
         flogger.flog filename
         reporter = Reporter.new
         flogger.report(reporter)
         metrics_for(filename)[:complexity] = reporter.average
+      rescue SyntaxError => e
+        puts "\nError flogging: #{filename}\n"
       end
-    end 
+    end
   end
-  
+
   def metrics_for(filename)
     @metrics[filename] ||= {}
   end
-  
+
   private
     def changes_by_ruby_file
       changes_by_file.select do |count, filename|
         filename =~ /\.rb$/ && File.exist?(filename)
       end
     end
-    
+
     def changes_by_file
       # borrowed from @coreyhaines
       `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)

@@ -17,9 +17,6 @@ $(document).ready(function() {
       subtitle: {
          text: 'Metrics that make you happy'
       },
-      legend:{
-        enabled: false
-      },
       xAxis: {
          title: {
             enabled: true,
@@ -27,12 +24,16 @@ $(document).ready(function() {
          },
          startOnTick: true,
          endOnTick: true,
-         showLastLabel: true
+         showLastLabel: true,
+         min: 0
       },
       yAxis: {
          title: {
             text: 'Complexity'
-         }
+          },
+          min: 0,
+          max: 50
+
       },
       tooltip: {
         formatter: function() {
@@ -63,10 +64,19 @@ $(document).ready(function() {
       }
    });
 
-  chart.addSeries({
-    type: 'scatter',
-    data: chuggleGraphData
-  });
+   $.each(directorySeries, function(directory) {
+     chart.addSeries({
+      name: directory,
+      type: 'scatter',
+      visible: false,
+      data: directorySeries[directory]
+     });
+   });
+
+  //chart.addSeries({
+  //  type: 'scatter',
+  //  data: chuggleGraphData
+  //});
 });
 
   </script>
