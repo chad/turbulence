@@ -2,14 +2,16 @@ PATH
   remote: .
   specs:
     chuggle (0.0.1)
+      flog (= 2.5.0)
+      json (= 1.4.6)
 
 GEM
   remote: http://rubygems.org/
   specs:
-    flog (2.5.1)
+    flog (2.5.0)
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
-    json (1.5.1)
+    json (1.4.6)
     ruby_parser (2.0.6)
       sexp_processor (~> 3.0)
     sexp_processor (3.0.5)
