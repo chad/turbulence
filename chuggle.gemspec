@@ -9,6 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Chad Fowler"]
   s.email       = ["chad@chadfowler.com"]
   s.homepage    = "http://chadfowler.com"
+  s.add_dependency "flog", "= 2.5.0"
+  s.add_dependency "json", "= 1.4.6"
+
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
   s.description = %q{Based on this http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2}
 
