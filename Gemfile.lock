@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chuggle (0.0.1)
+    chuggle (0.0.2)
       flog (= 2.5.0)
       json (= 1.4.6)
 
