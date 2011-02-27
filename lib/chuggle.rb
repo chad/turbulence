@@ -37,9 +37,7 @@ class Chuggle
         reporter = Reporter.new
         flogger.report(reporter)
         metrics_for(filename)[:complexity] = reporter.average
-      rescue SyntaxError => e
-        puts "\nError flogging: #{filename}\n"
-      rescue Racc::ParseError 
+      rescue SyntaxError, Racc::ParseError => e
         puts "\nError flogging: #{filename}\n"
       end
     end
