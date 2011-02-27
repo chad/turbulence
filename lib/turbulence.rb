@@ -64,7 +64,7 @@ class Turbulence
         adds, deletes, filename = line.chomp.split(/\t/)
         [filename, adds.to_i + deletes.to_i]
       end.group_by(&:first).map do |filename, stats|
-        [stats.map(&:last).inject(0){|n, i| n + i}, filename]
+        [stats.map(&:last).tap{|list| list.pop}.inject(0){|n, i| n + i}, filename]
       end
     end
 end
