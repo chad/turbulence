@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-require "chuggle/version"
+require "turbulence/version"
 
 Gem::Specification.new do |s|
-  s.name        = "chuggle"
-  s.version     = Chuggle::VERSION
+  s.name        = "turbulence"
+  s.version     = Turbulence::VERSION
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Chad Fowler", "Michael Feathers", "Corey Haines"]
   s.email       = ["chad@chadfowler.com", "mfeathers@obtiva.com", "coreyhaines@gmail.com"]
@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
   s.description = %q{Based on this http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2}
 
-  s.rubyforge_project = "chuggle"
+  s.rubyforge_project = "turbulence"
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")

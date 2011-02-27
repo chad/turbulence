@@ -1,5 +1,5 @@
 require 'json'
-class Chuggle
+class Turbulence
   class ScatterPlotGenerator
     def self.from(metrics_hash)
 
@@ -8,7 +8,7 @@ class Chuggle
       end.reject do |metrics|
           metrics[:x].nil? || metrics[:y].nil?
       end.to_json
-      series = ["var chuggleGraphData = #{data_in_json_format};"]
+      series = ["var turbulenceGraphData = #{data_in_json_format};"]
 
       grouped_by_directory = metrics_hash.group_by do |filename, _|
         directories = File.dirname(filename).split("/")

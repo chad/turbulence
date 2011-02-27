@@ -8,7 +8,7 @@ http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId
 Usage
 -----
 
-chuggle /path/to/git/project
+$ bule
 
 
 For now it just dumps out a hash of churn + flog metrics
