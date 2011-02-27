@@ -14,15 +14,18 @@ class Turbulence
     @dir = dir
     @metrics = {}
     Dir.chdir(dir) do
-      files = ["app/models", "app/controllers", "app/helpers", "lib"].map{|base_dir| "#{base_dir}/**/*\.rb"}
-      @ruby_files = Dir[*files]
       churn
       complexity
     end
   end
 
+  def ruby_files
+    files = ["app/models", "app/controllers", "app/helpers", "lib"].map{|base_dir| "#{base_dir}/**/*\.rb"}
+    @ruby_files ||= Dir[*files]
+  end
+
   def churn
-    files = changes_by_ruby_file.select { |_, filename| @ruby_files.include?(filename) }
+    files = changes_by_ruby_file.select { |_, filename| ruby_files.include?(filename) }
     files.each do |count, filename|
       print "."
       metrics_for(filename)[:churn] = Integer(count)
@@ -31,7 +34,7 @@ class Turbulence
 
   def complexity
     flogger = Flog.new
-    @ruby_files.each do |filename|
+    ruby_files.each do |filename|
       print "."
 
       begin
