@@ -51,13 +51,17 @@ class Turbulence
 
   private
     def changes_by_ruby_file
-      changes_by_file.select do |count, filename|
+      line_changes_by_file.select do |count, filename|
         filename =~ /\.rb$/ && File.exist?(filename)
       end
     end
 
-    def changes_by_file
-      # borrowed from @coreyhaines
-      `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)
+    def line_changes_by_file
+      `git log --all -M -C --numstat --format="%n"`.each_line.reject{|line| line =~ /^\n$/}.map do |line|
+        adds, deletes, filename = line.chomp.split(/\t/)
+        [filename, adds.to_i + deletes.to_i]
+      end.group_by(&:first).map do |filename, stats|
+        [stats.map(&:last).inject(0){|n, i| n + i}, filename]
+      end
     end
 end
