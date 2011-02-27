@@ -1,0 +1,60 @@
+var chart;
+$(document).ready(function() {
+   chart = new Highcharts.Chart({
+      chart: {
+         renderTo: 'container', 
+         defaultSeriesType: 'scatter',
+         zoomType: 'xy'
+      },
+      title: {
+         text: 'Height Versus Weight of 507 Individuals by Gender'
+      },
+      subtitle: {
+         text: 'Source: Heinz  2003'
+      },
+      xAxis: {
+         title: {
+            enabled: true,
+            text: 'Height (cm)'
+         },
+         startOnTick: true,
+         endOnTick: true,
+         showLastLabel: true
+      },
+      yAxis: {
+         title: {
+            text: 'Weight (kg)'
+         }
+      },
+
+      plotOptions: {
+         scatter: {
+            marker: {
+               radius: 5,
+               states: {
+                  hover: {
+                     enabled: true,
+                     lineColor: 'rgb(100,100,100)'
+                  }
+               }
+            },
+            states: {
+               hover: {
+                  marker: {
+                     enabled: false
+                  }
+               }
+            }
+         }
+      },
+      series: [{
+         name: 'Files',
+         color: 'rgba(223, 83, 83, .5)',
+         data: <%= data_in_json_format %>
+   
+      }]
+   });
+   
+   
+});
+   

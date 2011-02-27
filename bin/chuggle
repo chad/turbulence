@@ -1,14 +1,28 @@
 #!/usr/bin/env ruby
 require 'chuggle'
 require 'chuggle/scatter_plot_generator'
-require 'pp'
-unless ARGV.first && File.directory?(ARGV.first)
-  STDERR.puts "Usage:"
-  STDERR.puts "chuggle /path/to/git/repo/with/ruby/files"
-  exit
+require 'fileutils'
+CHUGGLE_PATH = File.join(File.absolute_path(File.dirname(__FILE__)), "..")
+
+def path_to_template(filename)
+  File.join(CHUGGLE_PATH, "template", filename)
 end
 
-File.open("cc.js", "w") do |f| 
-  f.write Chuggle::ScatterPlotGenerator.from(Chuggle.new(ARGV.first).metrics)
+def copy_templates_into(directory)
+  FileUtils.cp path_to_template('chuggle.html'), directory
+  FileUtils.cp path_to_template('highcharts.js'), directory
+  FileUtils.cp path_to_template('jquery.min.js'), directory
 end
 
+def generate_bundle_for(git_repo)
+  FileUtils.mkdir_p("chuggle")
+  Dir.chdir("chuggle") do
+    copy_templates_into(Dir.pwd)  
+    File.open("cc.js", "w") do |f| 
+      f.write Chuggle::ScatterPlotGenerator.from(Chuggle.new(git_repo).metrics)
+    end
+  end
+end
+
+
+generate_bundle_for Dir.pwd
