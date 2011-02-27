@@ -1,17 +1,23 @@
 PATH
   remote: .
   specs:
-    chuggle (0.0.2)
+    turbulence (0.0.2)
       flog (= 2.5.0)
       json (= 1.4.6)
+      launchy (~> 0.4.0)
 
 GEM
   remote: http://rubygems.org/
   specs:
+    configuration (1.2.0)
     flog (2.5.0)
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
     json (1.4.6)
+    launchy (0.4.0)
+      configuration (>= 0.0.5)
+      rake (>= 0.8.1)
+    rake (0.8.7)
     ruby_parser (2.0.6)
       sexp_processor (~> 3.0)
     sexp_processor (3.0.5)
@@ -20,6 +26,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  chuggle!
   flog
   json
+  launchy (~> 0.4.0)
+  turbulence!
