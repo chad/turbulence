@@ -4,7 +4,7 @@ require 'stringio'
 class Chuggle
   class Reporter < StringIO
     def average
-      Float(string.scan(/^\s+([^:]+).*average$/).flatten.first)
+      Float(string.scan(/^\s+([^:]+).*total$/).flatten.first)
     end
   end
 
@@ -38,6 +38,8 @@ class Chuggle
         flogger.report(reporter)
         metrics_for(filename)[:complexity] = reporter.average
       rescue SyntaxError => e
+        puts "\nError flogging: #{filename}\n"
+      rescue Racc::ParseError 
         puts "\nError flogging: #{filename}\n"
       end
     end
