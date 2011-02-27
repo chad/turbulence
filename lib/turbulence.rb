@@ -1,6 +1,5 @@
 require 'flog'
 require 'stringio'
-require 'grit'
 
 class Turbulence
   class Reporter < StringIO
@@ -56,10 +55,7 @@ class Turbulence
     end
 
     def changes_by_file
-      Grit::Repo.new(".").commits.map do |commit| 
-        commit.diffs.map(&:b_path)
-      end.flatten.group_by{|i| i}.map do |key, value| 
-        [key, value.size] 
-      end
+      # borrowed from @coreyhaines
+      `git log --all -M -C --name-only| sort | uniq -c | sort`.split(/\n/).map(&:split)
     end
 end
