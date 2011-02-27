@@ -2,6 +2,7 @@
 require 'turbulence'
 require 'turbulence/scatter_plot_generator'
 require 'fileutils'
+require 'launchy'
 TURBULENCE_PATH = File.join(File.absolute_path(File.dirname(__FILE__)), "..")
 
 def path_to_template(filename)
@@ -24,5 +25,8 @@ def generate_bundle_for(git_repo)
   end
 end
 
-
+def open_bundle(directory)
+  Launchy.open("file://#{directory}/turbulence/turbulence.html")
+end
 generate_bundle_for Dir.pwd
+open_bundle Dir.pwd
