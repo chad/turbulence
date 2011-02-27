@@ -1,7 +1,7 @@
 require 'flog'
 require 'stringio'
 
-class Chuggle
+class Turbulence
   class Reporter < StringIO
     def average
       Float(string.scan(/^\s+([^:]+).*total$/).flatten.first)
