@@ -10,5 +10,9 @@ Usage
 
 $ bule
 
-
 For now it just dumps out a hash of churn + flog metrics
+
+
+WARNING
+-------
+When you run bule, it creates a JavaScript file which contains your file paths and names.  If those are sensitive, be careful where you put these generated files and who you share them with.
