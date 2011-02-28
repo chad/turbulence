@@ -1,5 +1,7 @@
 require 'flog'
 require 'stringio'
+require 'turbulence/scatter_plot_generator'
+require 'turbulence/command_line_interface'
 
 class Turbulence
   class Reporter < StringIO
