@@ -6,15 +6,37 @@ describe Turbulence::Calculators::Churn do
     calculator.stub(:git_log_command) { "" }
   end
 
-  it "filters the results by the passed-in files" do
-    calculator.stub(:changes_by_ruby_file) {
-      [
-        [5, "lib/corey.rb"],
-        [10, "lib/chad.rb"]
-    ]
-    }
+  describe "::for_these_files" do
+    it "yields up the filename and score for each file" do
+      files = ["lib/corey.rb", "lib/chad.rb"]
+      calculator.stub(:changes_by_ruby_file) {
+        [
+          [5, "lib/corey.rb"],
+          [10, "lib/chad.rb"]
+      ]
+      }
+      yielded_files = []
+      calculator.for_these_files(files) do |filename, score|
+        yielded_files << [filename, score]
+      end
+      yielded_files.should =~ [["lib/corey.rb", 5],
+        ["lib/chad.rb",10]]
+    end
 
-    calculator.for_these_files(["lib/corey.rb"]).should == [[5,"lib/corey.rb"]]
+    it "filters the results by the passed-in files" do
+      files = ["lib/corey.rb"]
+      calculator.stub(:changes_by_ruby_file) {
+        [
+          [5, "lib/corey.rb"],
+          [10, "lib/chad.rb"]
+      ]
+      }
+      yielded_files = []
+      calculator.for_these_files(files) do |filename, score|
+        yielded_files << [filename, score]
+      end
+      yielded_files.should =~ [["lib/corey.rb", 5]]
+    end
   end
 
   describe "::git_log_file_lines" do
@@ -45,28 +67,37 @@ describe Turbulence::Calculators::Churn do
     end
   end
 
-  context "when one ruby file is given" do
-    before do
-      calculator.stub(:git_log_command) do
-        "\n\n\n\n10\t6\tlib/turbulence.rb\n" +
-        "\n\n\n\n11\t7\tlib/turbulence.rb\n"
-      end
-    end
-    context "with only one log entry" do
-      before do
-        calculator.stub(:git_log_command) do
-        "\n\n\n\n10\t6\tlib/turbulence.rb\n"
+  context "Full stack tests" do
+    context "when one ruby file is given" do
+      context "with two log entries for file" do
+        before do
+          calculator.stub(:git_log_command) do
+            "\n\n\n\n10\t6\tlib/turbulence.rb\n" +
+              "\n\n\n\n11\t7\tlib/turbulence.rb\n"
+          end
+        end
+        it "gives the line change count for the file" do
+          yielded_files = []
+          calculator.for_these_files(["lib/turbulence.rb"]) do |filename, score|
+            yielded_files << [filename, score]
+          end
+          yielded_files.should =~ [["lib/turbulence.rb", 16]]
+        end
+        context "with only one log entry for file" do
+          before do
+            calculator.stub(:git_log_command) do
+              "\n\n\n\n10\t6\tlib/turbulence.rb\n"
+            end
+          end
+          it "shows zero churn for the file" do
+            yielded_files = []
+            calculator.for_these_files(["lib/turbulence.rb"]) do |filename, score|
+              yielded_files << [filename, score]
+            end
+            yielded_files.should =~ [["lib/turbulence.rb", 0]]
+          end
         end
       end
-      it "shows zero churn for the file" do
-        calculator.for_these_files(["lib/turbulence.rb"]).first.first.should == 0
-      end
-    end
-    it "gives the line change count for the file" do
-      calculator.for_these_files(["lib/turbulence.rb"]).first.first.should == 16
-    end
-    it "includes an entry for that file" do
-      calculator.for_these_files(["lib/turbulence.rb"]).first.last.should == "lib/turbulence.rb"
     end
   end
 end

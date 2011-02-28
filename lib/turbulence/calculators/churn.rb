@@ -4,7 +4,7 @@ class Turbulence
       class << self
         def for_these_files(files)
           changes_by_ruby_file.select do |count, filename|
-            files.include?(filename)
+            yield filename, count if files.include?(filename)
           end
         end
 

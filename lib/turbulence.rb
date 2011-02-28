@@ -29,6 +29,12 @@ class Turbulence
     end
   end
 
+  def churn
+    Turbulence::Calculators::Churn.for_these_files(files_of_interest) do |filename, score|
+      set_file_metric(filename, :churn, Integer(score))
+    end
+  end
+
   def set_file_metric(filename, metric, value)
     print "."
     metrics_for(filename)[metric] = value
@@ -38,9 +44,4 @@ class Turbulence
     @metrics[filename] ||= {}
   end
 
-  def churn
-    Turbulence::Calculators::Churn.for_these_files(files_of_interest).each do |count, filename|
-      set_file_metric(filename, :churn, Integer(count))
-    end
-  end
 end
