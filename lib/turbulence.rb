@@ -1,16 +1,9 @@
-require 'flog'
-require 'stringio'
 require 'turbulence/scatter_plot_generator'
 require 'turbulence/command_line_interface'
 require 'turbulence/calculators/churn'
+require 'turbulence/calculators/complexity'
 
 class Turbulence
-  class Reporter < StringIO
-    def average
-      Float(string.scan(/^\s+([^:]+).*total$/).flatten.first)
-    end
-  end
-
   attr_reader :dir
   attr_reader :metrics
   def initialize(dir)
@@ -19,7 +12,7 @@ class Turbulence
     Dir.chdir(dir) do
       puts "churning"
       churn
-      puts "\nflogging"
+      puts "\ncomplexiting"
       complexity
       puts "\n"
     end
@@ -31,17 +24,8 @@ class Turbulence
   end
 
   def complexity
-    flogger = Flog.new
-    files_of_interest.each do |filename|
-
-      begin
-        flogger.flog filename
-        reporter = Reporter.new
-        flogger.report(reporter)
-        set_file_metric(filename, :complexity, reporter.average)
-      rescue SyntaxError, Racc::ParseError => e
-        puts "\nError flogging: #{filename}\n"
-      end
+    Turbulence::Calculators::Complexity.for_these_files(files_of_interest) do |filename, score|
+      set_file_metric(filename, :complexity, score)
     end
   end
 
