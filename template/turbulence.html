@@ -24,14 +24,17 @@ $(document).ready(function() {
          },
          startOnTick: false,
          endOnTick: false,
-         showLastLabel: true
+         labels: {enabled:false},
+         lineWidth: 0,
+         tickWidth: 0
       },
       yAxis: {
          title: {
             text: 'Complexity'
           },
          startOnTick: false,
-         endOnTick: false
+         endOnTick: false,
+         labels: {enabled:false}
       },
       tooltip: {
         formatter: function() {
