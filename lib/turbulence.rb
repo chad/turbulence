@@ -10,11 +10,8 @@ class Turbulence
     @dir = dir
     @metrics = {}
     Dir.chdir(dir) do
-      puts "churning"
       churn
-      puts "\ncomplexiting"
       complexity
-      puts "\n"
     end
   end
 
@@ -24,15 +21,19 @@ class Turbulence
   end
 
   def complexity
-    Turbulence::Calculators::Complexity.for_these_files(files_of_interest) do |filename, score|
-      set_file_metric(filename, :complexity, score)
-    end
+    calculate_metrics Turbulence::Calculators::Complexity
   end
 
   def churn
-    Turbulence::Calculators::Churn.for_these_files(files_of_interest) do |filename, score|
-      set_file_metric(filename, :churn, Integer(score))
+    calculate_metrics Turbulence::Calculators::Churn
+  end
+
+  def calculate_metrics(calculator)
+    puts "calculating metric: #{calculator}"
+    calculator.for_these_files(files_of_interest) do |filename, score|
+      set_file_metric(filename, calculator, score)
     end
+    puts "\n"
   end
 
   def set_file_metric(filename, metric, value)

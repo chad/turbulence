@@ -18,7 +18,7 @@ class Turbulence
       directory_series = {}
       grouped_by_directory.each_pair do |directory, metrics_hash|
         data_in_json_format = metrics_hash.map do |filename, metrics|
-          {:filename => filename, :x => metrics[:churn], :y => metrics[:complexity]}
+          {:filename => filename, :x => metrics[Turbulence::Calculators::Churn], :y => metrics[Turbulence::Calculators::Complexity]}
         end.reject do |metrics|
           metrics[:x].nil? || metrics[:y].nil?
         end
