@@ -3,7 +3,9 @@ class Turbulence
     class Churn
       class << self
         def for_these_files(files)
-          changes_by_ruby_file
+          changes_by_ruby_file.select do |count, filename|
+            files.include?(filename)
+          end
         end
 
         def changes_by_ruby_file

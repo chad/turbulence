@@ -5,13 +5,17 @@ describe Turbulence::Calculators::Churn do
   before do
     calculator.stub(:git_log_command) { "" }
   end
-  context "when no files are given to filter by" do
-    it "is empty" do
-      calculator.for_these_files([]).should be_empty
-    end
+
+  it "filters the results by the passed-in files" do
+    calculator.stub(:changes_by_ruby_file) {
+      [
+        [5, "lib/corey.rb"],
+        [10, "lib/chad.rb"]
+    ]
+    }
+
+    calculator.for_these_files(["lib/corey.rb"]).should == [[5,"lib/corey.rb"]]
   end
-
-
 
   describe "::git_log_file_lines" do
     it "returns just the file lines" do
