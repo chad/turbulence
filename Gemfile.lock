@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    turbulence (0.0.4)
+    turbulence (0.0.5)
       flog (= 2.5.0)
       json (= 1.4.6)
       launchy (~> 0.4.0)
@@ -35,8 +35,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  flog
-  json
+  flog (= 2.5.0)
+  json (= 1.4.6)
   launchy (~> 0.4.0)
   rspec
   turbulence!
