@@ -3,7 +3,7 @@ require 'launchy'
 
 class Turbulence
   class CommandLineInterface
-    TURBULENCE_PATH = File.join(File.absolute_path(File.dirname(__FILE__)), "..", "..")
+    TURBULENCE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..")
 
     attr_reader :directory
     def initialize(directory)
@@ -19,6 +19,7 @@ class Turbulence
         FileUtils.cp path_to_template(filename), directory
       end
     end
+    private :copy_templates_into
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")
