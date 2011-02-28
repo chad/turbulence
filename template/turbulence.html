@@ -22,18 +22,16 @@ $(document).ready(function() {
             enabled: true,
             text: 'Churn'
          },
-         startOnTick: true,
-         endOnTick: true,
-         showLastLabel: true,
-         min: 0
+         startOnTick: false,
+         endOnTick: false,
+         showLastLabel: true
       },
       yAxis: {
          title: {
             text: 'Complexity'
           },
-          min: 0,
-          max: 50
-
+         startOnTick: false,
+         endOnTick: false
       },
       tooltip: {
         formatter: function() {
