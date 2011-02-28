@@ -2,6 +2,7 @@ require 'flog'
 require 'stringio'
 require 'turbulence/scatter_plot_generator'
 require 'turbulence/command_line_interface'
+require 'turbulence/calculators/churn'
 
 class Turbulence
   class Reporter < StringIO
@@ -26,14 +27,6 @@ class Turbulence
     @ruby_files ||= Dir[*files]
   end
 
-  def churn
-    files = changes_by_ruby_file.select { |_, filename| ruby_files.include?(filename) }
-    files.each do |count, filename|
-      print "."
-      metrics_for(filename)[:churn] = Integer(count)
-    end
-  end
-
   def complexity
     flogger = Flog.new
     ruby_files.each do |filename|
@@ -54,23 +47,11 @@ class Turbulence
     @metrics[filename] ||= {}
   end
 
-  private
-    def changes_by_ruby_file
-      ruby_files_changed_in_git.group_by(&:first).map do |filename, stats|
-        [stats.map(&:last).tap{|list| list.pop}.inject(0){|n, i| n + i}, filename]
-      end
+  def churn
+    files = Turbulence::Calculators::Churn.for_these_files([]).select { |_, filename| ruby_files.include?(filename) }
+    files.each do |count, filename|
+      print "."
+      metrics_for(filename)[:churn] = Integer(count)
     end
-
-    def ruby_files_changed_in_git
-      git_log_command.each_line.reject{|line| line =~ /^\n$/}.map do |line|
-        adds, deletes, filename = line.chomp.split(/\t/)
-        [filename, adds.to_i + deletes.to_i]
-      end.select do |count, filename|
-        filename =~ /\.rb$/ && File.exist?(filename)
-      end
-    end
-
-    def git_log_command
-      `git log --all -M -C --numstat --format="%n"`
-    end
+  end
 end
