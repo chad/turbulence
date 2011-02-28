@@ -2,6 +2,14 @@ require 'json'
 class Turbulence
   class ScatterPlotGenerator
     def self.from(metrics_hash)
+      new(metrics_hash)
+    end
+    attr_reader :metrics_hash
+    def initialize(metrics_hash)
+      @metrics_hash = metrics_hash
+    end
+
+    def to_js
       grouped_by_directory = metrics_hash.group_by do |filename, _|
         directories = File.dirname(filename).split("/")
         directories[0..1].join("/")

@@ -25,7 +25,7 @@ class Turbulence
       Dir.chdir("turbulence") do
         copy_templates_into(Dir.pwd)
         File.open("cc.js", "w") do |f|
-          f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory).metrics)
+          f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory).metrics).to_js
         end
       end
     end
