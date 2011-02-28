@@ -15,16 +15,16 @@ class Turbulence
     end
 
     def copy_templates_into(directory)
-      FileUtils.cp path_to_template('turbulence.html'), directory
-      FileUtils.cp path_to_template('highcharts.js'), directory
-      FileUtils.cp path_to_template('jquery.min.js'), directory
+      ['turbulence.html', 'highcharts.js', 'jquery.min.js'].each do |filename|
+        FileUtils.cp path_to_template(filename), directory
+      end
     end
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")
       Dir.chdir("turbulence") do
-        copy_templates_into(Dir.pwd)  
-        File.open("cc.js", "w") do |f| 
+        copy_templates_into(Dir.pwd)
+        File.open("cc.js", "w") do |f|
           f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory).metrics)
         end
       end
