@@ -1,6 +1,8 @@
 class Turbulence
   module Calculators
     class Churn
+      RB_ENDING = ".rb"
+
       class << self
         def for_these_files(files)
           changes_by_ruby_file.each do |filename, count|
@@ -22,8 +24,8 @@ class Turbulence
         end
 
         def ruby_files_changed_in_git
-          counted_line_changes_by_file_by_commit.select do |filename, count|
-            filename =~ /\.rb$/ && File.exist?(filename)
+          counted_line_changes_by_file_by_commit.select do |filename, _|
+            filename.end_with?(RB_ENDING) && File.exist?(filename)
           end
         end
 
