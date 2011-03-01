@@ -2,7 +2,7 @@ require 'rspec'
 require 'turbulence'
 
 describe Turbulence::CommandLineInterface do
-  let(:cli) { Turbulence::CommandLineInterface.new('.') }
+  let(:cli) { Turbulence::CommandLineInterface.new(%w(.)) }
   describe "::TEMPLATE_FILES" do
     Turbulence::CommandLineInterface::TEMPLATE_FILES.each do |template_file|
       File.dirname(template_file).should == Turbulence::CommandLineInterface::TURBULENCE_TEMPLATE_PATH

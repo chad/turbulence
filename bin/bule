@@ -8,6 +8,6 @@ unless Turbulence::ChecksEnvironment.git_repo?(Dir.pwd)
   exit
 end
 
-cli = Turbulence::CommandLineInterface.new(Dir.pwd)
+cli = Turbulence::CommandLineInterface.new(ARGV)
 cli.generate_bundle
 cli.open_bundle
