@@ -10,7 +10,7 @@ class Turbulence
 
     attr_reader :directory
     def initialize(argv)
-      @directory = argv.first
+      @directory = argv.first || Dir.pwd
     end
 
     def copy_templates_into(directory)
