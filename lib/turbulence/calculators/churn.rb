@@ -16,16 +16,16 @@ class Turbulence
           end
         end
 
+        def ruby_files_changed_in_git
+          counted_line_changes_by_file_by_commit.select do |filename, _|
+            filename.end_with?(RUBY_FILE_EXTENSION) && File.exist?(filename)
+          end
+        end
+
         def counted_line_changes_by_file_by_commit
           git_log_file_lines.map do |line|
             adds, deletes, filename = line.split(/\t/)
             [filename, adds.to_i + deletes.to_i]
-          end
-        end
-
-        def ruby_files_changed_in_git
-          counted_line_changes_by_file_by_commit.select do |filename, _|
-            filename.end_with?(RUBY_FILE_EXTENSION) && File.exist?(filename)
           end
         end
 
