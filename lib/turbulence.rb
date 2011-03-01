@@ -31,13 +31,13 @@ class Turbulence
   def calculate_metrics(calculator)
     puts "calculating metric: #{calculator}"
     calculator.for_these_files(files_of_interest) do |filename, score|
+      print "."
       set_file_metric(filename, calculator, score)
     end
     puts "\n"
   end
 
   def set_file_metric(filename, metric, value)
-    print "."
     metrics_for(filename)[metric] = value
   end
 
