@@ -3,14 +3,14 @@ class Turbulence
     class Churn
       class << self
         def for_these_files(files)
-          changes_by_ruby_file.select do |count, filename|
+          changes_by_ruby_file.each do |filename, count|
             yield filename, count if files.include?(filename)
           end
         end
 
         def changes_by_ruby_file
           ruby_files_changed_in_git.group_by(&:first).map do |filename, stats|
-            [stats.map(&:last).tap{|list| list.pop}.inject(0){|n, i| n + i}, filename]
+            [filename, stats.map(&:last).tap{|list| list.pop}.inject(0){|n, i| n + i}]
           end
         end
 

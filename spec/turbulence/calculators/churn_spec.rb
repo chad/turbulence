@@ -11,8 +11,8 @@ describe Turbulence::Calculators::Churn do
       files = ["lib/corey.rb", "lib/chad.rb"]
       calculator.stub(:changes_by_ruby_file) {
         [
-          [5, "lib/corey.rb"],
-          [10, "lib/chad.rb"]
+          ["lib/corey.rb", 5],
+          ["lib/chad.rb", 10]
       ]
       }
       yielded_files = []
@@ -27,8 +27,8 @@ describe Turbulence::Calculators::Churn do
       files = ["lib/corey.rb"]
       calculator.stub(:changes_by_ruby_file) {
         [
-          [5, "lib/corey.rb"],
-          [10, "lib/chad.rb"]
+          ["lib/corey.rb", 5],
+          ["lib/chad.rb", 10]
       ]
       }
       yielded_files = []
