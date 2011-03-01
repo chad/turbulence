@@ -4,8 +4,10 @@ class Turbulence
     def self.from(metrics_hash)
       new(metrics_hash)
     end
-    attr_reader :metrics_hash
-    def initialize(metrics_hash)
+    attr_reader :metrics_hash, :x_metric, :y_metric
+    def initialize(metrics_hash, x_metric = Turbulence::Calculators::Churn, y_metric = Turbulence::Calculators::Complexity)
+      @x_metric = x_metric
+      @y_metric = y_metric
       @metrics_hash = metrics_hash
     end
 
@@ -18,7 +20,7 @@ class Turbulence
       directory_series = {}
       grouped_by_directory.each_pair do |directory, metrics_hash|
         data_in_json_format = metrics_hash.map do |filename, metrics|
-          {:filename => filename, :x => metrics[Turbulence::Calculators::Churn], :y => metrics[Turbulence::Calculators::Complexity]}
+          {:filename => filename, :x => metrics[x_metric], :y => metrics[y_metric]}
         end.reject do |metrics|
           metrics[:x].nil? || metrics[:y].nil?
         end
