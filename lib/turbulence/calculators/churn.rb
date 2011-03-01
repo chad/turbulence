@@ -10,7 +10,7 @@ class Turbulence
 
         def changes_by_ruby_file
           ruby_files_changed_in_git.group_by(&:first).map do |filename, stats|
-            [filename, stats.map(&:last).tap{|list| list.pop}.inject(0){|n, i| n + i}]
+            [filename, stats[0..-2].map(&:last).inject(0){|n, i| n + i}]
           end
         end
 
