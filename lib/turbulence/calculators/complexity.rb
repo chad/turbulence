@@ -24,8 +24,9 @@ class Turbulence
       end
 
       class Reporter < ::StringIO
+        SCORE_LINE_DETECTOR = /^\s+([^:]+).*flog total$/
         def score
-          Float(string.scan(/^\s+([^:]+).*total$/).flatten.first)
+          Float(string.scan(SCORE_LINE_DETECTOR).flatten.first)
         end
       end
     end
