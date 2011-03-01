@@ -1,5 +1,21 @@
 require 'json'
+
 class Turbulence
+  class FileNameMangler
+    def initialize
+      @current_id = 0
+      @segment_map = { "" => "", "app" => "app", "controllers" => "controllers", "helpers" => "helpers", "lib" => "lib" }
+    end
+
+    def transform(segment)
+      @segment_map[segment] ||= (@current_id += 1)
+    end
+
+    def mangle_name(filename)
+      filename.split('/').map {|seg|transform(seg)}.join('/') + ".rb"
+    end
+  end
+
   class ScatterPlotGenerator
     def self.from(metrics_hash)
       new(metrics_hash)
@@ -9,6 +25,13 @@ class Turbulence
       @x_metric = x_metric
       @y_metric = y_metric
       @metrics_hash = metrics_hash
+    end
+
+    def mangle
+      mangler = FileNameMangler.new
+      mangled = {}
+      metrics_hash.each_pair { |filename, metrics| mangled[mangler.mangle_name(filename)] = metrics}
+      @metrics_hash = mangled
     end
 
     def to_js

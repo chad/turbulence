@@ -16,6 +16,7 @@ class Turbulence
     def copy_templates_into(directory)
       FileUtils.cp TEMPLATE_FILES, directory
     end
+    private :copy_templates_into
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")

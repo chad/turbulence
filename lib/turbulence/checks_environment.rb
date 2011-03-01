@@ -3,8 +3,9 @@ class Turbulence
   class ChecksEnvironment
     class << self
       def git_repo?(directory)
-        _, err, _ = Open3::capture3("git status")
-        !(err =~ /Not a git repository/)
+        Open3.popen3("git status") do |_, _, err, _|
+          return !(err.read =~ /Not a git repository/)  
+        end
       end
     end
   end

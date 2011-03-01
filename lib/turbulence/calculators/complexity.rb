@@ -18,8 +18,8 @@ class Turbulence
           reporter = Reporter.new
           flogger.report(reporter)
           reporter.score
-        rescue SyntaxError, Racc::ParseError
-          STDERR.puts "\nError flogging: #{filename}\n"
+        rescue Exception => e
+          STDERR.puts "\nError flogging: #{filename} #{e.to_s}\n"
         end
       end
 
