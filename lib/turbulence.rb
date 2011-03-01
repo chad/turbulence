@@ -4,37 +4,34 @@ require 'turbulence/calculators/churn'
 require 'turbulence/calculators/complexity'
 
 class Turbulence
-  attr_reader :dir
+  CODE_DIRECTORIES = ["app/models", "app/controllers", "app/helpers", "lib"]
+  CALCULATORS = [Turbulence::Calculators::Complexity, Turbulence::Calculators::Churn]
+
   attr_reader :metrics
-  def initialize(dir)
-    @dir = dir
+  def initialize(directory, output = STDOUT)
+    @output = output
     @metrics = {}
-    Dir.chdir(dir) do
-      churn
-      complexity
+    Dir.chdir(directory) do
+      CALCULATORS.each(&method(:calculate_metrics_with))
     end
   end
 
   def files_of_interest
-    files = ["app/models", "app/controllers", "app/helpers", "lib"].map{|base_dir| "#{base_dir}/**/*\.rb"}
-    @ruby_files ||= Dir[*files]
+    file_list = CODE_DIRECTORIES.map{|base_dir| "#{base_dir}/**/*\.rb"}
+    @ruby_files ||= Dir[*file_list]
   end
 
-  def complexity
-    calculate_metrics Turbulence::Calculators::Complexity
-  end
-
-  def churn
-    calculate_metrics Turbulence::Calculators::Churn
-  end
-
-  def calculate_metrics(calculator)
-    puts "calculating metric: #{calculator}"
+  def calculate_metrics_with(calculator)
+    report "calculating metric: #{calculator}\n"
     calculator.for_these_files(files_of_interest) do |filename, score|
-      print "."
+      report "."
       set_file_metric(filename, calculator, score)
     end
-    puts "\n"
+    report "\n"
+  end
+
+  def report(this)
+    @output.print this
   end
 
   def set_file_metric(filename, metric, value)
