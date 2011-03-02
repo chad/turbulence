@@ -14,4 +14,18 @@ describe Turbulence::CommandLineInterface do
       Dir.glob('turbulence/*').should eq(["turbulence/cc.js", "turbulence/highcharts.js", "turbulence/jquery.min.js", "turbulence/turbulence.html"])
     end
   end
+  describe "command line options" do
+    let(:cli_churn_range) { Turbulence::CommandLineInterface.new(%w(--churn-range f3e1d7a6..830b9d3d9f path/to/compute)) }
+    let(:cli_churn_mean) { Turbulence::CommandLineInterface.new(%w(--churn-mean .)) }
+
+    it "sets churn range" do
+      cli_churn_range.directory.should == 'path/to/compute'
+      Turbulence::Calculators::Churn.commit_range.should == 'f3e1d7a6..830b9d3d9f'
+    end
+    
+    it "sets churn mean" do
+      cli_churn_mean.directory.should == '.'
+      Turbulence::Calculators::Churn.compute_mean.should be_true
+    end
+  end
 end
