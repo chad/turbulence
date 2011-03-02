@@ -8,7 +8,7 @@ class Turbulence
   CALCULATORS = [Turbulence::Calculators::Complexity, Turbulence::Calculators::Churn]
 
   attr_reader :metrics
-  def initialize(directory, output = STDOUT)
+  def initialize(directory, output = nil)
     @output = output
     @metrics = {}
     Dir.chdir(directory) do
@@ -31,7 +31,7 @@ class Turbulence
   end
 
   def report(this)
-    @output.print this
+    @output.print this unless @output.nil?
   end
 
   def set_file_metric(filename, metric, value)
