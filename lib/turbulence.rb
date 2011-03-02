@@ -1,5 +1,6 @@
 require 'turbulence/scatter_plot_generator'
 require 'turbulence/command_line_interface'
+require 'turbulence/checks_environment'
 require 'turbulence/calculators/churn'
 require 'turbulence/calculators/complexity'
 
