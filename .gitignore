@@ -1,5 +1,6 @@
 pkg/*
 *.gem
+*.swp
 .bundle
 .rvmrc
 turbulence/*
