@@ -42,17 +42,19 @@ class Turbulence
 
       directory_series = {}
       grouped_by_directory.each_pair do |directory, metrics_hash|
-        data_in_json_format = metrics_hash.map do |filename, metrics|
-          {:filename => filename, :x => metrics[x_metric], :y => metrics[y_metric]}
-        end.reject(&method(:one_of_the_metrics_is_nil))
+        data_in_json_format = metrics_hash.select do |filename, metrics|
+          unless metrics[x_metric].nil? || metrics[y_metric].nil?
+            {
+              :filename => filename,
+              :x => metrics[x_metric],
+              :y => metrics[y_metric]
+            }
+          end
+        end
         directory_series[directory] = data_in_json_format
       end
 
       "var directorySeries = #{directory_series.to_json};"
-    end
-
-    def one_of_the_metrics_is_nil(metrics)
-      metrics[:x].nil? || metrics[:y].nil?
     end
   end
 end
