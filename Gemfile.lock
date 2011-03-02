@@ -15,6 +15,7 @@ GEM
       ruby_parser (~> 2.0)
       sexp_processor (~> 3.0)
     json (1.4.6)
+    json (1.4.6-x86-mingw32)
     launchy (0.4.0)
       configuration (>= 0.0.5)
       rake (>= 0.8.1)
@@ -33,6 +34,7 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   flog (= 2.5.0)
