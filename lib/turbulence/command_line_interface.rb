@@ -11,9 +11,13 @@ class Turbulence
 
     attr_reader :directory
     def initialize(argv)
+      Turbulence::Calculators::Churn.scm = Scm::Git
       OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
         
+        opts.on('--scm p4|git', String, 'scm to use (default: git)') do |s|
+          Turbulence::Calculators::Churn.scm = Scm::Perforce
+        end
         opts.on('--churn-range since..until', String, 'commit range to compute file churn') do |s|
           Turbulence::Calculators::Churn.commit_range = s
         end

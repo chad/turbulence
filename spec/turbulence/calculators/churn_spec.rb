@@ -3,7 +3,7 @@ require 'turbulence/calculators/churn'
 describe Turbulence::Calculators::Churn do
   let(:calculator) { Turbulence::Calculators::Churn }
   before do
-    calculator.stub(:git_log_command) { "" }
+    calculator.stub(:scm_log_command) { "" }
   end
 
   describe "::for_these_files" do
@@ -39,13 +39,13 @@ describe Turbulence::Calculators::Churn do
     end
   end
 
-  describe "::git_log_file_lines" do
+  describe "::scm_log_file_lines" do
     it "returns just the file lines" do
-      calculator.stub(:git_log_command) do
+      calculator.stub(:scm_log_command) do
       "\n\n\n\n10\t6\tlib/turbulence.rb\n\n\n\n17\t2\tlib/eddies.rb\n"
       end
 
-      calculator.git_log_file_lines.should =~ [
+      calculator.scm_log_file_lines.should =~ [
         "10\t6\tlib/turbulence.rb",
         "17\t2\tlib/eddies.rb"
       ]
@@ -54,7 +54,7 @@ describe Turbulence::Calculators::Churn do
 
   describe "::counted_line_changes_by_file_by_commit" do
     before do
-      calculator.stub(:git_log_file_lines) {
+      calculator.stub(:scm_log_file_lines) {
         [
           "10\t6\tlib/turbulence.rb",
           "17\t2\tlib/eddies.rb"
@@ -69,7 +69,7 @@ describe Turbulence::Calculators::Churn do
   
   describe "::changes_by_ruby_file" do
     before do
-      calculator.stub(:ruby_files_changed_in_git) {
+      calculator.stub(:ruby_files_changed_in_scm) {
         [
           ['lib/eddies.rb', 4],
           ['lib/turbulence.rb', 5],
@@ -98,7 +98,7 @@ describe Turbulence::Calculators::Churn do
     context "when one ruby file is given" do
       context "with two log entries for file" do
         before do
-          calculator.stub(:git_log_command) do
+          calculator.stub(:scm_log_command) do
             "\n\n\n\n10\t6\tlib/turbulence.rb\n" +
               "\n\n\n\n11\t7\tlib/turbulence.rb\n"
           end
@@ -112,7 +112,7 @@ describe Turbulence::Calculators::Churn do
         end
         context "with only one log entry for file" do
           before do
-            calculator.stub(:git_log_command) do
+            calculator.stub(:scm_log_command) do
               "\n\n\n\n10\t6\tlib/turbulence.rb\n"
             end
           end

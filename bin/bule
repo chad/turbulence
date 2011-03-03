@@ -2,12 +2,13 @@
 require 'turbulence'
 require 'turbulence/checks_environment'
 
-unless Turbulence::ChecksEnvironment.git_repo?(Dir.pwd)
-  STDERR.puts "Turbulence could not calculate metrics, as we could not find a git repository in the current directory."
-  STDERR.puts "Please run bule from inside a git repository."
+cli = Turbulence::CommandLineInterface.new(ARGV)
+
+unless Turbulence::ChecksEnvironment.scm_repo?(Dir.pwd)
+  STDERR.puts "Turbulence could not calculate metrics, as we could not find a repository in the current directory."
+  STDERR.puts "Please run bule from inside a repository."
   exit
 end
 
-cli = Turbulence::CommandLineInterface.new(ARGV)
 cli.generate_bundle
 cli.open_bundle
