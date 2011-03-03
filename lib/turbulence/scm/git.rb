@@ -3,7 +3,7 @@ class Turbulence
   module Scm
     class Git 
       class << self
-        def log_command(commit_range)
+        def log_command(commit_range = "")
           `git log --all -M -C --numstat --format="%n" #{commit_range}`
         end
 
