@@ -1,4 +1,3 @@
-require 'turbulence/scm/git'
 class Turbulence
   module Calculators
     class Churn

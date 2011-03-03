@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'launchy'
 require 'optparse'
+require 'turbulence/scm/git'
+require 'turbulence/scm/perforce'
 
 class Turbulence
   class CommandLineInterface
