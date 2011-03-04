@@ -9,7 +9,10 @@ describe Turbulence::ScatterPlotGenerator do
           Turbulence::Calculators::Complexity => 2
         }
       )
-      generator.to_js.should == 'var directorySeries = {".":[{"filename":"foo.rb","x":1,"y":2}]};'
+      generator.to_js.should =~ /var directorySeries/ 
+      generator.to_js.should =~ /\"filename\"\:\"foo.rb\"/ 
+      generator.to_js.should =~ /\"x\":1/ 
+      generator.to_js.should =~ /\"y\":2/ 
     end  
   end
 
