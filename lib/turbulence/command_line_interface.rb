@@ -1,5 +1,6 @@
 require 'fileutils'
 require 'launchy'
+require 'optparse'
 
 class Turbulence
   class CommandLineInterface
@@ -10,6 +11,22 @@ class Turbulence
 
     attr_reader :directory
     def initialize(argv)
+      OptionParser.new do |opts|
+        opts.banner = "Usage: bule [options] [dir]"
+        
+        opts.on('--churn-range since..until', String, 'commit range to compute file churn') do |s|
+          Turbulence::Calculators::Churn.commit_range = s
+        end
+        opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
+          Turbulence::Calculators::Churn.compute_mean = true
+        end
+        
+        opts.on_tail("-h", "--help", "Show this message") do
+          puts opts
+          exit
+        end
+      end.parse!(argv)
+      
       @directory = argv.first || Dir.pwd
     end
 
@@ -23,7 +40,7 @@ class Turbulence
       Dir.chdir("turbulence") do
         copy_templates_into(Dir.pwd)
         File.open("cc.js", "w") do |f|
-          f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory).metrics).to_js
+          f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory,STDOUT).metrics).to_js
         end
       end
     end

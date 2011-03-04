@@ -4,6 +4,8 @@ class Turbulence
       RUBY_FILE_EXTENSION = ".rb"
 
       class << self
+        attr_accessor :compute_mean, :commit_range
+        
         def for_these_files(files)
           changes_by_ruby_file.each do |filename, count|
             yield filename, count if files.include?(filename)
@@ -12,7 +14,11 @@ class Turbulence
 
         def changes_by_ruby_file
           ruby_files_changed_in_git.group_by(&:first).map do |filename, stats|
-            [filename, stats[0..-2].map(&:last).inject(0){|n, i| n + i}]
+            churn = stats[0..-2].map(&:last).inject(0){|n, i| n + i}
+            if compute_mean && stats.size > 1
+              churn /= (stats.size-1)
+            end
+            [filename, churn]
           end
         end
 
@@ -34,7 +40,7 @@ class Turbulence
         end
 
         def git_log_command
-          `git log --all -M -C --numstat --format="%n"`
+          `git log --all -M -C --numstat --format="%n" #{commit_range}`
         end
       end
     end
