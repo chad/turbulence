@@ -1,4 +1,3 @@
-require 'open3'
 class Turbulence
   class ChecksEnvironment
     class << self
