@@ -3,6 +3,11 @@ Hopefully-meaningful Metrics
 
 Based on Michael Feathers' [recent work](http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2) in project churn and complexity:
 
+Installation
+------------
+
+    $ gem install turbulence
+
 Usage
 -----
 
