@@ -1,9 +1,7 @@
 Hopefully-meaningful Metrics
 ============================
 
-Based on Michael Feathers' recent work in project churn and complexity:
-http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2
-
+Based on Michael Feathers' [recent work](http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2) in project churn and complexity:
 
 Usage
 -----
@@ -11,7 +9,6 @@ Usage
 $ bule
 
 For now it just dumps out a hash of churn + flog metrics
-
 
 WARNING
 -------
