@@ -5,7 +5,7 @@ class Turbulence
     class Complexity
       class << self
         def flogger
-          @flogger ||= Flog.new
+          @flogger ||= Flog.new(:continue => true)
         end
         def for_these_files(files)
           files.each do |filename|
