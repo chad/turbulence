@@ -1,4 +1,5 @@
 require 'bundler'
+require 'win_rakefile_location_fix'
 Bundler::GemHelper.install_tasks
 require 'rake'
 require 'rspec/core/rake_task'

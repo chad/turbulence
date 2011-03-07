@@ -9,9 +9,7 @@ class Turbulence
 
         def is_repo?(directory)
           FileUtils.cd(directory) {
-            Open3.popen3("git status") do |_, _, err, _|
-            return !(err.read =~ /Not a git repository/)  
-            end
+            return !(`git status 2>&1` =~ /Not a git repository/)
           }
         end
       end
