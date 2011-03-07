@@ -18,8 +18,6 @@ class Turbulence
           reporter = Reporter.new
           flogger.report(reporter)
           reporter.score
-        rescue Exception => e
-          STDERR.puts "\nError flogging: #{filename} #{e.to_s}\n"
         end
       end
 
