@@ -9,6 +9,9 @@ describe Turbulence::CommandLineInterface do
     end
   end
   describe "#generate_bundle" do
+    before do
+      FileUtils.remove_dir("turbulence", true)
+    end
     it "bundles the files" do
       cli.generate_bundle
       Dir.glob('turbulence/*').should eq(["turbulence/cc.js", "turbulence/highcharts.js", "turbulence/jquery.min.js", "turbulence/turbulence.html"])

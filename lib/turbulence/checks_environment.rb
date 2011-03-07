@@ -1,10 +1,8 @@
 class Turbulence
   class ChecksEnvironment
     class << self
-      def git_repo?(directory)
-        Dir.chdir directory do
-          !(`git status` =~ /Not a git repository/)
-        end
+      def scm_repo?(directory)
+        Turbulence::Calculators::Churn.scm.is_repo?(directory)
       end
     end
   end

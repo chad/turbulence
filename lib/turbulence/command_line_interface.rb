@@ -1,6 +1,8 @@
 require 'fileutils'
 require 'launchy'
 require 'optparse'
+require 'turbulence/scm/git'
+require 'turbulence/scm/perforce'
 
 class Turbulence
   class CommandLineInterface
@@ -11,22 +13,30 @@ class Turbulence
 
     attr_reader :directory
     def initialize(argv)
+      Turbulence::Calculators::Churn.scm = Scm::Git
       OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
-        
+
+        opts.on('--scm p4|git', String, 'scm to use (default: git)') do |s|
+          case s
+          when "git", "", nil
+          when "p4"
+            Turbulence::Calculators::Churn.scm = Scm::Perforce
+          end
+        end
         opts.on('--churn-range since..until', String, 'commit range to compute file churn') do |s|
           Turbulence::Calculators::Churn.commit_range = s
         end
         opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
           Turbulence::Calculators::Churn.compute_mean = true
         end
-        
+
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts
           exit
         end
       end.parse!(argv)
-      
+
       @directory = argv.first || Dir.pwd
     end
 

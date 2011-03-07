@@ -4,7 +4,7 @@ class Turbulence
       RUBY_FILE_EXTENSION = ".rb"
 
       class << self
-        attr_accessor :compute_mean, :commit_range
+        attr_accessor :scm, :compute_mean, :commit_range
         
         def for_these_files(files)
           changes_by_ruby_file.each do |filename, count|
@@ -13,7 +13,7 @@ class Turbulence
         end
 
         def changes_by_ruby_file
-          ruby_files_changed_in_git.group_by(&:first).map do |filename, stats|
+          ruby_files_changed_in_scm.group_by(&:first).map do |filename, stats|
             churn = stats[0..-2].map(&:last).inject(0){|n, i| n + i}
             if compute_mean && stats.size > 1
               churn /= (stats.size-1)
@@ -22,25 +22,25 @@ class Turbulence
           end
         end
 
-        def ruby_files_changed_in_git
+        def ruby_files_changed_in_scm
           counted_line_changes_by_file_by_commit.select do |filename, _|
             filename.end_with?(RUBY_FILE_EXTENSION) && File.exist?(filename)
           end
         end
 
         def counted_line_changes_by_file_by_commit
-          git_log_file_lines.map do |line|
+          scm_log_file_lines.map do |line|
             adds, deletes, filename = line.split(/\t/)
             [filename, adds.to_i + deletes.to_i]
           end
         end
 
-        def git_log_file_lines
-          git_log_command.each_line.reject{|line| line == "\n"}.map(&:chomp)
+        def scm_log_file_lines
+          scm_log_command.each_line.reject{|line| line == "\n"}.map(&:chomp)
         end
 
-        def git_log_command
-          `git log --all -M -C --numstat --format="%n" #{commit_range}`
+        def scm_log_command
+          scm.log_command(commit_range)
         end
       end
     end
