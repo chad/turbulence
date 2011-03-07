@@ -5,7 +5,7 @@ class Turbulence
     class Complexity
       class << self
         def flogger
-          @flogger ||= Flog.new
+          @flogger ||= Flog.new(:continue => true)
         end
         def for_these_files(files)
           files.each do |filename|
@@ -18,8 +18,6 @@ class Turbulence
           reporter = Reporter.new
           flogger.report(reporter)
           reporter.score
-        rescue Exception => e
-          STDERR.puts "\nError flogging: #{filename} #{e.to_s}\n"
         end
       end
 
