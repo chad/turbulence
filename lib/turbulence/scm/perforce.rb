@@ -6,17 +6,17 @@ class Turbulence
     class Perforce 
       class << self
         def log_command(commit_range = "")
+          full_log = ""
           changes.each do |cn|
-            log = `p4 describe -ds #{cn}"`
-            puts "Looking at change #{cn}"
-            f = log.match(/==== (\/\/.*#\d+)/)
-              next if f.nil?
+            files_per_change(cn).each do |file|
+              full_log << transform_for_output(file)
+            end
           end
+          return full_log
         end
 
         def is_repo?(directory)
           p4client = ENV['P4CLIENT']
-
           return !((p4client.nil? or p4client.empty?) and not self.has_p4?)
         end
 
@@ -46,10 +46,14 @@ class Turbulence
             if describe_output[index].start_with?("====")
               fn = depot_to_local(describe_output[index].match(/==== (\/\/.*)#\d+/)[1])
               churn = sum_of_changes(describe_output[index .. index + 4].join("\n"))
-              map << [fn,churn]
+              map << [churn,fn]
             end
           end
           return map
+        end
+
+        def transform_for_output(arr)
+          "#{arr[0]}\t0\t#{arr[1]}"
         end
 
         def sum_of_changes(p4_describe_output) 

@@ -3,52 +3,18 @@ require 'rspec/mocks'
 
 describe Turbulence::Scm::Perforce do
   let (:p4_scm) { Turbulence::Scm::Perforce }
-  describe "::is_repo?" do
-    it "returns true if P4CLIENT is set " do
-      ENV['P4CLIENT'] = "c-foo.bar"
-      Turbulence::Scm::Perforce.is_repo?(".").should == true
-    end
-    it "returns false if P4CLIENT is empty"  do
-      ENV['P4CLIENT'] = ""
-      Turbulence::Scm::Perforce.is_repo?(".").should == false
-    end
-    it "returns false if p4 is not available" do
-      ENV['PATH'] = ""
-      Turbulence::Scm::Perforce.is_repo?(".").should == false
-    end
-  end
-  describe "::log_command" do
-    before do
-      p4_scm.stub(:log_command) { "" }
-    end
-    it "takes an optional argument to specify the range" do
-      expect{Turbulence::Scm::Perforce.log_command("@1,2")}.to_not raise_error(ArgumentError)
-    end
-
-    it "lists insertions/deletions per file and change" #do
-      #Turbulence::Scm::Perforce.log_command().should match(/\d+\t\d+\t[A-z.]*/)
-    #end
-  end
-  describe "::changes" do
-    before do
-      p4_scm.stub(:p4_list_changes) do
-        "Change 62660 on 2005/11/28 by x@client 'CHANGED: adapted to DESCODE '
+  before do
+    p4_scm.stub(:p4_list_changes) do
+      "Change 62660 on 2005/11/28 by x@client 'CHANGED: adapted to DESCODE '
 Change 45616 on 2005/07/12 by x@client 'ADDED: trigger that builds and '
 Change 45615 on 2005/07/12 by x@client 'ADDED: for testing purposes '
 Change 45614 on 2005/07/12 by x@client 'COSMETIC: updated header '
 Change 11250 on 2004/09/17 by x@client 'CHANGED: trigger now also allow'
 Change 9250 on 2004/08/20 by x@client 'BUGFIX: bug#1583 (People can so'
 Change 5560 on 2004/04/26 by x@client 'ADDED: The \"BRANCHED\" tag.'"
-      end
     end
-    it "lists changenumbers from parsing 'p4 changes' output" do
-      p4_scm.changes.should =~ %w[62660 45616 45615 45614 11250 9250 5560]
-    end
-  end
-  describe "::files_per_change" do
-    before do
-      p4_scm.stub(:p4_describe_change).with("5560") do
-        "Change 5560 by x@client on 2004/04/26 17:25:03
+    p4_scm.stub(:p4_describe_change).with("5560") do
+      "Change 5560 by x@client on 2004/04/26 17:25:03
 
         ADDED: The \"BRANCHED\" tag.
 
@@ -70,7 +36,47 @@ changed 1 chunks 3 / 3 lines
 add 0 chunks 0 lines
 deleted 0 chunks 0 lines
 changed 1 chunks 3 / 1 lines"
+    end
+  end
+  describe "::is_repo?" do
+    it "returns true if P4CLIENT is set " do
+      ENV['P4CLIENT'] = "c-foo.bar"
+      Turbulence::Scm::Perforce.is_repo?(".").should == true
+    end
+    it "returns false if P4CLIENT is empty"  do
+      ENV['P4CLIENT'] = ""
+      Turbulence::Scm::Perforce.is_repo?(".").should == false
+    end
+    it "returns false if p4 is not available" do
+      ENV['PATH'] = ""
+      Turbulence::Scm::Perforce.is_repo?(".").should == false
+    end
+  end
+  describe "::log_command" do
+    before do
+      p4_scm.stub(:depot_to_local).with("//admin/scripts/triggers/enforce-submit-comment.py")\
+        .and_return("triggers/enforce-submit-comments.py")
+      p4_scm.stub(:depot_to_local).with("//admin/scripts/triggers/check-consistency.py")\
+        .and_return("triggers/check-consistency.py")
+      p4_scm.stub(:p4_list_changes) do
+        "Change 5560 on 2004/04/26 by x@client 'ADDED: The \"BRANCHED\" tag.'"
       end
+    end
+    it "takes an optional argument to specify the range" do
+      expect{Turbulence::Scm::Perforce.log_command("@1,2")}.to_not raise_error(ArgumentError)
+    end
+
+    it "lists insertions/deletions per file and change" do
+      Turbulence::Scm::Perforce.log_command().should match(/\d+\t\d+\t[A-z.]*/)
+    end
+  end
+  describe "::changes" do
+    it "lists changenumbers from parsing 'p4 changes' output" do
+      p4_scm.changes.should =~ %w[62660 45616 45615 45614 11250 9250 5560]
+    end
+  end
+  describe "::files_per_change" do
+    before do
       p4_scm.stub(:depot_to_local).with("//admin/scripts/triggers/enforce-submit-comment.py")\
         .and_return("triggers/enforce-submit-comments.py")
       p4_scm.stub(:depot_to_local).with("//admin/scripts/triggers/check-consistency.py")\
@@ -78,8 +84,13 @@ changed 1 chunks 3 / 1 lines"
     end
 
     it "lists files with churn" do
-      p4_scm.files_per_change("5560").should  =~ [["triggers/enforce-submit-comments.py", 4],
-      ["triggers/check-consistency.py", 1]]
+      p4_scm.files_per_change("5560").should  =~ [[4,"triggers/enforce-submit-comments.py"],
+        [1,"triggers/check-consistency.py"]]
+    end
+  end
+  describe "::transform_for_output" do
+    it "adds a 0 for deletions" do
+      p4_scm.transform_for_output([1,"triggers/check-consistency.py"]).should == "1\t0\ttriggers/check-consistency.py"
     end
   end
   describe "::depot_to_local" do
@@ -101,7 +112,7 @@ changed 1 chunks 3 / 1 lines"
       end
       it "converts depot-style paths to local paths using forward slashes" do
         p4_scm.depot_to_local("//admin/scripts/triggers/enforce-no-head-change.py").should \
-         == "admin/scripts/triggers/enforce-no-head-change.py"
+          == "admin/scripts/triggers/enforce-no-head-change.py"
       end
     end
     describe "on unix" do
@@ -122,7 +133,7 @@ changed 1 chunks 3 / 1 lines"
       end
       it "converts depot-style paths to local paths using forward slashes" do
         p4_scm.depot_to_local("//admin/scripts/triggers/enforce-no-head-change.py").should \
-         == "admin/scripts/triggers/enforce-no-head-change.py"
+          == "admin/scripts/triggers/enforce-no-head-change.py"
       end
     end
   end
