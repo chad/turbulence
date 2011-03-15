@@ -53,7 +53,7 @@ class Turbulence
         end
 
         def transform_for_output(arr)
-          "#{arr[0]}\t0\t#{arr[1]}"
+          "#{arr[0]}\t0\t#{arr[1]}\n"
         end
 
         def sum_of_changes(p4_describe_output) 

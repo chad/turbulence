@@ -90,7 +90,7 @@ changed 1 chunks 3 / 1 lines"
   end
   describe "::transform_for_output" do
     it "adds a 0 for deletions" do
-      p4_scm.transform_for_output([1,"triggers/check-consistency.py"]).should == "1\t0\ttriggers/check-consistency.py"
+      p4_scm.transform_for_output([1,"triggers/check-consistency.py"]).should == "1\t0\ttriggers/check-consistency.py\n"
     end
   end
   describe "::depot_to_local" do
