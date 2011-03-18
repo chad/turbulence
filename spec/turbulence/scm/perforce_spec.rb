@@ -96,18 +96,7 @@ changed 1 chunks 3 / 1 lines"
   describe "::depot_to_local" do
     describe "on windows" do
       before do
-        p4_scm.stub(:p4_fstat) do 
-          "... depotFile //admin/scripts/triggers/enforce-no-head-change.py
-... clientFile D:\\Perforce\\admin\\scripts\\triggers\\enforce-no-head-change.py
-... isMapped
-... headAction edit
-... headType ktext
-... headTime 1214555059
-... headRev 5
-... headChange 211211
-... headModTime 1214555028
-... haveRev 5"
-        end
+        p4_scm.stub(:extract_clientfile_from_fstat_of).and_return("D:/Perforce/admin/scripts/triggers/enforce-no-head-change.py")
         FileUtils.stub(:pwd).and_return("D:/Perforce")
       end
       it "converts depot-style paths to local paths using forward slashes" do
@@ -117,8 +106,19 @@ changed 1 chunks 3 / 1 lines"
     end
     describe "on unix" do
       before do
-        p4_scm.stub(:p4_fstat) do 
-          "... depotFile //admin/scripts/triggers/enforce-no-head-change.py
+        p4_scm.stub(:extract_clientfile_from_fstat_of).and_return("/home/jhwist/admin/scripts/triggers/enforce-no-head-change.py")
+        FileUtils.stub(:pwd).and_return("/home/jhwist")
+      end
+      it "converts depot-style paths to local paths using forward slashes" do
+        p4_scm.depot_to_local("//admin/scripts/triggers/enforce-no-head-change.py").should \
+          == "admin/scripts/triggers/enforce-no-head-change.py"
+      end
+    end
+  end
+  describe "::extract_clientfile_from_fstat_of" do
+    before do
+      p4_scm.stub(:p4_fstat) do 
+        "... depotFile //admin/scripts/triggers/enforce-no-head-change.py
 ... clientFile /home/jhwist/admin/scripts/triggers/enforce-no-head-change.py
 ... isMapped
 ... headAction edit
@@ -128,13 +128,11 @@ changed 1 chunks 3 / 1 lines"
 ... headChange 211211
 ... headModTime 1214555028
 ... haveRev 5"
-        end
-        FileUtils.stub(:pwd).and_return("/home/jhwist")
       end
-      it "converts depot-style paths to local paths using forward slashes" do
-        p4_scm.depot_to_local("//admin/scripts/triggers/enforce-no-head-change.py").should \
-          == "admin/scripts/triggers/enforce-no-head-change.py"
-      end
+    end
+    it "uses clientFile field"  do
+      p4_scm.extract_clientfile_from_fstat_of("//admin/scripts/triggers/enforce-no-head-change.py").should ==
+        "/home/jhwist/admin/scripts/triggers/enforce-no-head-change.py"
     end
   end
   describe "::sum_of_changes" do

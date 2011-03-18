@@ -33,10 +33,14 @@ class Turbulence
         end
 
         def depot_to_local(depot_file)
-          abs_path =  p4_fstat(depot_file).each_line.select {
+          abs_path = extract_clientfile_from_fstat_of(depot_file) 
+          Pathname.new(abs_path).relative_path_from(Pathname.new(FileUtils.pwd)).to_s
+        end
+
+        def extract_clientfile_from_fstat_of(depot_file)
+          p4_fstat(depot_file).each_line.select {
             |line| line =~ /clientFile/
           }[0].split(" ")[2].tr("\\","/")
-          Pathname.new(abs_path).relative_path_from(Pathname.new(FileUtils.pwd)).to_s
         end
 
         def files_per_change(change)
@@ -44,12 +48,16 @@ class Turbulence
           map = []
           describe_output.each_index do |index|
             if describe_output[index].start_with?("====")
-              fn = depot_to_local(describe_output[index].match(/==== (\/\/.*)#\d+/)[1])
+              fn = filename_from_describe(describe_output, index)
               churn = sum_of_changes(describe_output[index .. index + 4].join("\n"))
               map << [churn,fn]
             end
           end
           return map
+        end
+
+        def filename_from_describe(output,index)
+          depot_to_local(output[index].match(/==== (\/\/.*)#\d+/)[1])
         end
 
         def transform_for_output(arr)
