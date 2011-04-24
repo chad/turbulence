@@ -8,10 +8,12 @@ class Turbulence
   CODE_DIRECTORIES = ["app/models", "app/controllers", "app/helpers", "lib"]
   CALCULATORS = [Turbulence::Calculators::Complexity, Turbulence::Calculators::Churn]
 
+  attr_reader :exclusion_pattern
   attr_reader :metrics
-  def initialize(directory, output = nil)
+  def initialize(directory, output = nil, exclusion_pattern = nil)
     @output = output
     @metrics = {}
+    @exclusion_pattern = exclusion_pattern
     Dir.chdir(directory) do
       CALCULATORS.each(&method(:calculate_metrics_with))
     end
@@ -19,7 +21,7 @@ class Turbulence
 
   def files_of_interest
     file_list = CODE_DIRECTORIES.map{|base_dir| "#{base_dir}/**/*\.rb"}
-    @ruby_files ||= Dir[*file_list]
+    @ruby_files ||= exclude_files(Dir[*file_list])
   end
 
   def calculate_metrics_with(calculator)
@@ -43,4 +45,11 @@ class Turbulence
     @metrics[filename] ||= {}
   end
 
+  private
+  def exclude_files(files)
+    if not @exclusion_pattern.nil?
+      files = files.reject { |f| f =~ Regexp.new(@exclusion_pattern) }
+    end
+    files
+  end
 end
