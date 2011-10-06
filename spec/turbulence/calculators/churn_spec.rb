@@ -86,12 +86,37 @@ describe Turbulence::Calculators::Churn do
       calculator.compute_mean = false
       calculator.changes_by_ruby_file.should =~ [ ['lib/eddies.rb', 25], ['lib/turbulence.rb', 21]]
     end
+
+    it "interprets a single entry as zero churn" do
+      calculator.stub(:ruby_files_changed_in_scm) {
+        [
+          ['lib/eddies.rb', 4],
+        ]
+      }
+      calculator.compute_mean = false
+      calculator.changes_by_ruby_file.should =~ [ ['lib/eddies.rb', 0] ]
+    end
     
     it "groups and takes the mean of churns, excluding the last" do
       calculator.compute_mean = true
       calculator.changes_by_ruby_file.should =~ [ ['lib/eddies.rb', 8], ['lib/turbulence.rb', 10]]
       calculator.compute_mean = false
     end
+  end
+
+  describe "::calculate_mean_of_churn" do
+    it "handles zero sample size" do
+      calculator.calculate_mean_of_churn(8,0).should == 8
+    end
+
+    it "returns original churn for sample size = 1"  do
+      calculator.calculate_mean_of_churn(8,1).should == 8
+    end
+
+    it "returns churn divided by sample size" do
+      calculator.calculate_mean_of_churn(25,3).should == 8
+    end
+
   end
 
   context "Full stack tests" do

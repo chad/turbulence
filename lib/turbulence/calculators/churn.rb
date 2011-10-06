@@ -5,7 +5,7 @@ class Turbulence
 
       class << self
         attr_accessor :scm, :compute_mean, :commit_range
-        
+
         def for_these_files(files)
           changes_by_ruby_file.each do |filename, count|
             yield filename, count if files.include?(filename)
@@ -14,12 +14,19 @@ class Turbulence
 
         def changes_by_ruby_file
           ruby_files_changed_in_scm.group_by(&:first).map do |filename, stats|
-            churn = stats[0..-2].map(&:last).inject(0){|n, i| n + i}
-            if compute_mean && stats.size > 1
-              churn /= (stats.size-1)
-            end
-            [filename, churn]
+            churn_for_file(filename,stats)
           end
+        end
+
+        def churn_for_file(filename,stats)
+          churn = stats[0..-2].map(&:last).inject(0){|running_total, changes| running_total + changes}
+          churn = calculate_mean_of_churn(churn, stats.size - 1) if compute_mean
+          [filename, churn]
+        end
+
+        def calculate_mean_of_churn(churn, sample_size) 
+          return churn if sample_size < 1
+          churn /= sample_size
         end
 
         def ruby_files_changed_in_scm

@@ -14,7 +14,15 @@ In your project directory, run:
 
     $ bule
 
-For now it just dumps out a hash of churn + flog metrics
+and it will generate (and open) turbulence/turbulence.html 
+
+Supported SCM systems
+---------------------
+Currently, bule defaults to using git. If you are using Perforce, call it like so:
+
+    $ bule --scm p4
+
+You need to have an environment variable P4CLIENT set to the name of your client workspace.
 
 WARNING
 -------

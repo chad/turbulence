@@ -35,23 +35,31 @@ class Turbulence
     end
 
     def to_js
+      clean_metrics_from_missing_data
+      directory_series = {}
+      grouped_by_directory.each_pair do |directory, metrics_hash|
+        directory_series[directory] = file_metrics_for_directory(metrics_hash)      end
+
+      "var directorySeries = #{directory_series.to_json};"
+    end
+
+    def clean_metrics_from_missing_data
       metrics_hash.reject! do |filename, metrics|
         metrics[x_metric].nil? || metrics[y_metric].nil?
       end
-      
-      grouped_by_directory = metrics_hash.group_by do |filename, _|
+    end
+
+    def grouped_by_directory
+      metrics_hash.group_by do |filename, _|
         directories = File.dirname(filename).split("/")
         directories[0..1].join("/")
       end
+    end
 
-      directory_series = {}
-      grouped_by_directory.each_pair do |directory, metrics_hash|
-        directory_series[directory] = metrics_hash.map do |filename, metrics|
-          {:filename => filename, :x => metrics[x_metric], :y => metrics[y_metric]}
-        end
+    def file_metrics_for_directory(metrics_hash)
+      metrics_hash.map do |filename, metrics|
+        {:filename => filename, :x => metrics[x_metric], :y => metrics[y_metric]}
       end
-
-      "var directorySeries = #{directory_series.to_json};"
     end
   end
 end
