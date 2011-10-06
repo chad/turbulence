@@ -16,10 +16,18 @@ describe Turbulence::CommandLineInterface do
       cli.generate_bundle
       Dir.glob('turbulence/*').should eq(["turbulence/cc.js", "turbulence/highcharts.js", "turbulence/jquery.min.js", "turbulence/turbulence.html"])
     end
+
+    it "passes along exclusion pattern" do
+      cli = Turbulence::CommandLineInterface.new(%w(--exclude turbulence))
+      cli.generate_bundle
+      lines = File.new('turbulence/cc.js').readlines
+      lines.any? { |l| l =~ /turbulence\.rb/ }.should be_false
+    end
   end
   describe "command line options" do
     let(:cli_churn_range) { Turbulence::CommandLineInterface.new(%w(--churn-range f3e1d7a6..830b9d3d9f path/to/compute)) }
     let(:cli_churn_mean) { Turbulence::CommandLineInterface.new(%w(--churn-mean .)) }
+    let(:cli_exclusion_pattern) { Turbulence::CommandLineInterface.new(%w(--exclude turbulence)) }
 
     it "sets churn range" do
       cli_churn_range.directory.should == 'path/to/compute'
@@ -29,6 +37,10 @@ describe Turbulence::CommandLineInterface do
     it "sets churn mean" do
       cli_churn_mean.directory.should == '.'
       Turbulence::Calculators::Churn.compute_mean.should be_true
+    end
+
+    it "sets the exclusion pattern" do
+      cli_exclusion_pattern.exclusion_pattern.should == 'turbulence'
     end
   end
 end

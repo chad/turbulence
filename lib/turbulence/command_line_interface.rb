@@ -10,7 +10,8 @@ class Turbulence
     TEMPLATE_FILES = ['turbulence.html', 'highcharts.js', 'jquery.min.js'].map { |filename|
       File.join(TURBULENCE_TEMPLATE_PATH, filename)
     }
-
+    
+    attr_reader :exclusion_pattern
     attr_reader :directory
     def initialize(argv)
       Turbulence::Calculators::Churn.scm = Scm::Git
@@ -29,6 +30,9 @@ class Turbulence
         end
         opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
           Turbulence::Calculators::Churn.compute_mean = true
+        end
+        opts.on('--exclude pattern', String, 'exclude files matching pattern') do |pattern|
+          @exclusion_pattern = pattern
         end
 
         opts.on_tail("-h", "--help", "Show this message") do
@@ -50,7 +54,8 @@ class Turbulence
       Dir.chdir("turbulence") do
         copy_templates_into(Dir.pwd)
         File.open("cc.js", "w") do |f|
-          f.write Turbulence::ScatterPlotGenerator.from(Turbulence.new(directory,STDOUT).metrics).to_js
+          turb = Turbulence.new(directory,STDOUT, @exclusion_pattern)
+          f.write Turbulence::ScatterPlotGenerator.from(turb.metrics).to_js
         end
       end
     end
