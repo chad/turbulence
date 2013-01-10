@@ -6,7 +6,7 @@ class Ruby19Parser < RubyParser
     ruby.gsub!(/(\w+):\s+/, '"\1" =>')
     super(ruby, file)
   end
-end
+end unless defined?(:Ruby19Parser)
 
 class Flog19 < Flog
   def initialize option = {}

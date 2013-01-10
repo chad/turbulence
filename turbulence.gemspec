@@ -9,10 +9,9 @@ Gem::Specification.new do |s|
   s.authors     = ["Chad Fowler", "Michael Feathers", "Corey Haines"]
   s.email       = ["chad@chadfowler.com", "mfeathers@obtiva.com", "coreyhaines@gmail.com"]
   s.homepage    = "http://chadfowler.com"
-  s.add_dependency "flog", "= 2.5.0"
+  s.add_dependency "flog", "= 3.2.1"
   s.add_dependency "json", ">= 1.4.6"
   s.add_dependency "launchy", "~> 2.0.0"
-  s.add_dependency "ParseTree", "~> 3.0.7"
   s.add_development_dependency 'rspec', '~> 2.6.0'
 
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
