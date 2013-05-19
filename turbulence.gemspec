@@ -13,6 +13,7 @@ Gem::Specification.new do |s|
   s.add_dependency "json", ">= 1.4.6"
   s.add_dependency "launchy", "~> 2.0.0"
   s.add_development_dependency 'rspec', '~> 2.6.0'
+  s.add_development_dependency 'rake'
 
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
   s.description = %q{Based on this http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2}

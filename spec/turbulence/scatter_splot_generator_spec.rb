@@ -60,12 +60,12 @@ describe Turbulence::ScatterPlotGenerator do
         spg.stub(:metrics_hash).and_return("foo.rb" => {
           Turbulence::Calculators::Churn => 1
         })
-        spg.grouped_by_directory.should ==  {"." => [["foo.rb", Turbulence::Calculators::Churn => 1]]}
+        spg.grouped_by_directory.should ==  {"." => [["foo.rb", {Turbulence::Calculators::Churn => 1}]]}
       end
 
       it "takes full path into account" do
-        spg.grouped_by_directory.should ==  {"lib/foo" => [["lib/foo/foo.rb", Turbulence::Calculators::Churn => 1]],
-          "lib" => [["lib/bar.rb", Turbulence::Calculators::Churn => 2]]}
+        spg.grouped_by_directory.should ==  {"lib/foo" => [["lib/foo/foo.rb", {Turbulence::Calculators::Churn => 1}]],
+          "lib" => [["lib/bar.rb", {Turbulence::Calculators::Churn => 2}]]}
       end
   end
 
