@@ -18,20 +18,3 @@ describe Turbulence::Calculators::Complexity do
   end
 end
 
-describe Turbulence::Calculators::Complexity::Reporter do
-  subject { Turbulence::Calculators::Complexity::Reporter.new }
-  it "uses the total value from flog" do
-    flog_output = <<-FLOG_OUTPUT
-     38.7: flog total
-     5.5: flog/method average
-
-     9.3: Turbulence#initialize            lib/turbulence.rb:9
-     8.7: Turbulence#churn                 lib/turbulence.rb:41
-     6.1: Turbulence#complexity            lib/turbulence.rb:26
-FLOG_OUTPUT
-
-    subject.stub(:string) { flog_output }
-
-    subject.score.should == 38.7
-  end
-end
