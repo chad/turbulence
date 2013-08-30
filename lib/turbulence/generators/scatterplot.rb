@@ -3,7 +3,9 @@ class Turbulence
     class ScatterPlot
       attr_reader :metrics_hash, :x_metric, :y_metric
 
-      def initialize(metrics_hash, x_metric = Turbulence::Calculators::Churn, y_metric = Turbulence::Calculators::Complexity)
+      def initialize(metrics_hash,
+                     x_metric = Turbulence::Calculators::Churn,
+                     y_metric = Turbulence::Calculators::Complexity)
         @x_metric     = x_metric
         @y_metric     = y_metric
         @metrics_hash = metrics_hash
@@ -46,7 +48,9 @@ class Turbulence
 
       def file_metrics_for_directory(metrics_hash)
         metrics_hash.map do |filename, metrics|
-          {:filename => filename, :x => metrics[x_metric], :y => metrics[y_metric]}
+          { :filename => filename,
+            :x        => metrics[x_metric],
+            :y        => metrics[y_metric]}
         end
       end
 
@@ -56,11 +60,6 @@ class Turbulence
           f.write Turbulence::Generators::ScatterPlot.from(metrics).to_js
         end
       end
-
-      private
-      # def copy_templates_into(directory)
-      #   FileUtils.cp TEMPLATE_FILES, directory
-      # end
     end
   end
 end

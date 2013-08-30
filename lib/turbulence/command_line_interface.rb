@@ -7,9 +7,12 @@ require 'turbulence/scm/perforce'
 class Turbulence
   class CommandLineInterface
     TURBULENCE_TEMPLATE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "template")
-    TEMPLATE_FILES = ['turbulence.html', 'highcharts.js', 'jquery.min.js'].map { |filename|
+    TEMPLATE_FILES = ['turbulence.html',
+                      'highcharts.js',
+                      'jquery.min.js',
+                      'treemap.html'].map do |filename|
       File.join(TURBULENCE_TEMPLATE_PATH, filename)
-    }
+    end
 
     attr_reader :exclusion_pattern
     attr_reader :directory
@@ -55,7 +58,6 @@ class Turbulence
     def copy_templates_into(directory)
       FileUtils.cp TEMPLATE_FILES, directory
     end
-    # private :copy_templates_into
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")
@@ -65,7 +67,7 @@ class Turbulence
 
         generator = case @graph_type
         when "treemap"
-          Turbulence::Generators::TreeMap.new
+          Turbulence::Generators::TreeMap.new({})
         else
           Turbulence::Generators::ScatterPlot.new({})
         end
@@ -75,7 +77,12 @@ class Turbulence
     end
 
     def open_bundle
-      Launchy.open("file://#{directory}/turbulence/turbulence.html")
+      case @graph_type
+      when "treemap"
+        Launchy.open("file://#{directory}/turbulence/treemap.html")
+      else
+        Launchy.open("file://#{directory}/turbulence/turbulence.html")
+      end
     end
   end
 end

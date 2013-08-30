@@ -14,7 +14,11 @@ describe Turbulence::CommandLineInterface do
     end
     it "bundles the files" do
       cli.generate_bundle
-      Dir.glob('turbulence/*').sort.should eq(["turbulence/cc.js", "turbulence/highcharts.js", "turbulence/jquery.min.js", "turbulence/turbulence.html"])
+      Dir.glob('turbulence/*').sort.should eq(["turbulence/cc.js",
+                                               "turbulence/highcharts.js",
+                                               "turbulence/jquery.min.js",
+                                               "turbulence/treemap.html",
+                                               "turbulence/turbulence.html"])
     end
 
     it "passes along exclusion pattern" do
@@ -33,7 +37,7 @@ describe Turbulence::CommandLineInterface do
       cli_churn_range.directory.should == 'path/to/compute'
       Turbulence::Calculators::Churn.commit_range.should == 'f3e1d7a6..830b9d3d9f'
     end
-    
+
     it "sets churn mean" do
       cli_churn_mean.directory.should == '.'
       Turbulence::Calculators::Churn.compute_mean.should be_true
