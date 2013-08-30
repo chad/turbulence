@@ -1,8 +1,10 @@
-require 'turbulence/scatter_plot_generator'
+require 'turbulence/file_name_mangler'
 require 'turbulence/command_line_interface'
 require 'turbulence/checks_environment'
 require 'turbulence/calculators/churn'
 require 'turbulence/calculators/complexity'
+require 'turbulence/generators/treemap'
+require 'turbulence/generators/scatterplot'
 
 class Turbulence
   CODE_DIRECTORIES = ["app/models",

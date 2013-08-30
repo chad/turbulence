@@ -1,49 +1,47 @@
 require 'turbulence'
 
-describe Turbulence::ScatterPlotGenerator do
+describe Turbulence::Generators::ScatterPlot do
   context "with both Metrics" do
     it "generates JavaScript" do
-      generator = Turbulence::ScatterPlotGenerator.new(
-        "foo.rb" => {
-        Turbulence::Calculators::Churn => 1,
-        Turbulence::Calculators::Complexity => 2
-      }
+      generator = Turbulence::Generators::ScatterPlot.new(
+        "foo.rb" => { Turbulence::Calculators::Churn      => 1,
+                      Turbulence::Calculators::Complexity => 2 }
       )
-      generator.to_js.should =~ /var directorySeries/ 
-        generator.to_js.should =~ /\"filename\"\:\"foo.rb\"/ 
-        generator.to_js.should =~ /\"x\":1/ 
-        generator.to_js.should =~ /\"y\":2/ 
-    end  
+
+      generator.to_js.should =~ /var directorySeries/
+      generator.to_js.should =~ /\"filename\"\:\"foo.rb\"/
+      generator.to_js.should =~ /\"x\":1/
+      generator.to_js.should =~ /\"y\":2/
+    end
   end
 
   context "with a missing Metric" do
     it "generates JavaScript" do
-      generator = Turbulence::ScatterPlotGenerator.new(
-        "foo.rb" => {
-        Turbulence::Calculators::Churn => 1
-      }
+      generator = Turbulence::Generators::ScatterPlot.new(
+        "foo.rb" => { Turbulence::Calculators::Churn => 1 }
       )
+
       generator.to_js.should == 'var directorySeries = {};'
-    end  
+    end
   end
 
-  describe "#clean_metrics_from_missing_data" do 
-    let(:spg) {Turbulence::ScatterPlotGenerator.new({})}
+  describe "#clean_metrics_from_missing_data" do
+    let(:spg) {Turbulence::Generators::ScatterPlot.new({})}
 
-    it "removes entries with missing churn" do 
-      spg.stub(:metrics_hash).and_return("foo.rb" => { 
+    it "removes entries with missing churn" do
+      spg.stub(:metrics_hash).and_return("foo.rb" => {
         Turbulence::Calculators::Complexity => 88.3})
         spg.clean_metrics_from_missing_data.should == {}
     end
 
     it "removes entries with missing complexity" do
-      spg.stub(:metrics_hash).and_return("foo.rb" => { 
+      spg.stub(:metrics_hash).and_return("foo.rb" => {
         Turbulence::Calculators::Churn => 1})
         spg.clean_metrics_from_missing_data.should == {}
     end
 
     it "keeps entries with churn and complexity present" do
-      spg.stub(:metrics_hash).and_return("foo.rb" => { 
+      spg.stub(:metrics_hash).and_return("foo.rb" => {
         Turbulence::Calculators::Churn => 1,
         Turbulence::Calculators::Complexity => 88.3})
         spg.clean_metrics_from_missing_data.should_not == {}
@@ -51,7 +49,7 @@ describe Turbulence::ScatterPlotGenerator do
   end
 
   describe "#grouped_by_directory" do
-    let(:spg) {Turbulence::ScatterPlotGenerator.new("lib/foo/foo.rb" => {
+    let(:spg) {Turbulence::Generators::ScatterPlot.new("lib/foo/foo.rb" => {
       Turbulence::Calculators::Churn => 1},
       "lib/bar.rb" => {
       Turbulence::Calculators::Churn => 2} )}
@@ -60,17 +58,17 @@ describe Turbulence::ScatterPlotGenerator do
         spg.stub(:metrics_hash).and_return("foo.rb" => {
           Turbulence::Calculators::Churn => 1
         })
-        spg.grouped_by_directory.should ==  {"." => [["foo.rb", {Turbulence::Calculators::Churn => 1}]]}
+        spg.grouped_by_directory.should == {"." => [["foo.rb", {Turbulence::Calculators::Churn => 1}]]}
       end
 
       it "takes full path into account" do
-        spg.grouped_by_directory.should ==  {"lib/foo" => [["lib/foo/foo.rb", {Turbulence::Calculators::Churn => 1}]],
+        spg.grouped_by_directory.should == {"lib/foo" => [["lib/foo/foo.rb", {Turbulence::Calculators::Churn => 1}]],
           "lib" => [["lib/bar.rb", {Turbulence::Calculators::Churn => 2}]]}
       end
   end
 
   describe "#file_metrics_for_directory" do
-    let(:spg) {Turbulence::ScatterPlotGenerator.new({})}
+    let(:spg) {Turbulence::Generators::ScatterPlot.new({})}
     it "assigns :filename, :x, :y" do
       spg.file_metrics_for_directory("lib/foo/foo.rb" => {
         Turbulence::Calculators::Churn => 1,

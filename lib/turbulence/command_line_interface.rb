@@ -38,6 +38,11 @@ class Turbulence
           @exclusion_pattern = pattern
         end
 
+        opts.on('--treemap', String, 'output treemap graph instead of scatterplot') do |s|
+          @graph_type = "treemap"
+        end
+
+
         opts.on_tail("-h", "--help", "Show this message") do
           puts opts
           exit
@@ -50,17 +55,22 @@ class Turbulence
     def copy_templates_into(directory)
       FileUtils.cp TEMPLATE_FILES, directory
     end
-    private :copy_templates_into
+    # private :copy_templates_into
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")
 
       Dir.chdir("turbulence") do
-        copy_templates_into(Dir.pwd)
-        File.open("cc.js", "w") do |f|
-          turb = Turbulence.new(directory,STDOUT, @exclusion_pattern)
-          f.write Turbulence::ScatterPlotGenerator.from(turb.metrics).to_js
+        turb = Turbulence.new(directory,STDOUT, @exclusion_pattern)
+
+        generator = case @graph_type
+        when "treemap"
+          Turbulence::Generators::TreeMap.new
+        else
+          Turbulence::Generators::ScatterPlot.new({})
         end
+
+        generator.generate_results(turb.metrics, self)
       end
     end
 
