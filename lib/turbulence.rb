@@ -5,15 +5,24 @@ require 'turbulence/calculators/churn'
 require 'turbulence/calculators/complexity'
 
 class Turbulence
-  CODE_DIRECTORIES = ["app/models", "app/controllers", "app/helpers", "app/jobs", "app/mailers", "app/validators", "lib"]
-  CALCULATORS = [Turbulence::Calculators::Complexity, Turbulence::Calculators::Churn]
+  CODE_DIRECTORIES = ["app/models",
+                      "app/controllers",
+                      "app/helpers",
+                      "app/jobs",
+                      "app/mailers",
+                      "app/validators",
+                      "lib"]
+  CALCULATORS = [Turbulence::Calculators::Complexity,
+                 Turbulence::Calculators::Churn]
 
   attr_reader :exclusion_pattern
   attr_reader :metrics
+
   def initialize(directory, output = nil, exclusion_pattern = nil)
-    @output = output
-    @metrics = {}
+    @output            = output
+    @metrics           = {}
     @exclusion_pattern = exclusion_pattern
+
     Dir.chdir(directory) do
       CALCULATORS.each(&method(:calculate_metrics_with))
     end
@@ -26,10 +35,12 @@ class Turbulence
 
   def calculate_metrics_with(calculator)
     report "calculating metric: #{calculator}\n"
+
     calculator.for_these_files(files_of_interest) do |filename, score|
       report "."
       set_file_metric(filename, calculator, score)
     end
+
     report "\n"
   end
 

@@ -10,7 +10,7 @@ class Turbulence
     TEMPLATE_FILES = ['turbulence.html', 'highcharts.js', 'jquery.min.js'].map { |filename|
       File.join(TURBULENCE_TEMPLATE_PATH, filename)
     }
-    
+
     attr_reader :exclusion_pattern
     attr_reader :directory
     def initialize(argv)
@@ -25,12 +25,15 @@ class Turbulence
             Turbulence::Calculators::Churn.scm = Scm::Perforce
           end
         end
+
         opts.on('--churn-range since..until', String, 'commit range to compute file churn') do |s|
           Turbulence::Calculators::Churn.commit_range = s
         end
+
         opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
           Turbulence::Calculators::Churn.compute_mean = true
         end
+
         opts.on('--exclude pattern', String, 'exclude files matching pattern') do |pattern|
           @exclusion_pattern = pattern
         end
@@ -51,6 +54,7 @@ class Turbulence
 
     def generate_bundle
       FileUtils.mkdir_p("turbulence")
+
       Dir.chdir("turbulence") do
         copy_templates_into(Dir.pwd)
         File.open("cc.js", "w") do |f|
