@@ -29,17 +29,9 @@ class Turbulence
         end
 
         def score_for_file(filename)
+          flogger.reset
           flogger.flog filename
-          reporter = Reporter.new
-          flogger.report(reporter)
-          reporter.score
-        end
-      end
-
-      class Reporter < ::StringIO
-        SCORE_LINE_DETECTOR = /^\s+([^:]+).*flog total$/
-        def score
-          Float(string.scan(SCORE_LINE_DETECTOR).flatten.first)
+          flogger.total_score
         end
       end
     end
