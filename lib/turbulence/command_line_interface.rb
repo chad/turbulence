@@ -79,9 +79,9 @@ class Turbulence
     def open_bundle
       case @graph_type
       when "treemap"
-        Launchy.open("file://#{directory}/turbulence/treemap.html")
+        Launchy.open("file:///#{directory}/turbulence/treemap.html")
       else
-        Launchy.open("file://#{directory}/turbulence/turbulence.html")
+        Launchy.open("file:///#{directory}/turbulence/turbulence.html")
       end
     end
   end
