@@ -18,6 +18,7 @@ class Turbulence
     attr_reader :directory
     def initialize(argv)
       Turbulence::Calculators::Churn.scm = Scm::Git
+      @graph_type = "turbulence"
       OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
 
@@ -77,12 +78,7 @@ class Turbulence
     end
 
     def open_bundle
-      case @graph_type
-      when "treemap"
-        Launchy.open("file://#{directory}/turbulence/treemap.html")
-      else
-        Launchy.open("file://#{directory}/turbulence/turbulence.html")
-      end
+      Launchy.open("file:///#{directory}/turbulence/#{@graph_type}.html")
     end
   end
 end
