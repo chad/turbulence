@@ -42,19 +42,23 @@ changed 1 chunks 3 / 1 lines"
   end
 
   describe "::is_repo?" do
+    before :each do
+      ENV.stub(:[]).with("P4CLIENT").and_return(nil)
+      ENV.stub(:[]).with("PATH").and_return("")
+    end
+
     it "returns true if P4CLIENT is set " do
-      ENV['P4CLIENT'] = "c-foo.bar"
-      Turbulence::Scm::Perforce.is_repo?(".").should == true
+      ENV.stub(:[]).with("P4CLIENT").and_return("c-foo.bar")
+
+      Turbulence::Scm::Perforce.is_repo?(".").should be_true
     end
 
     it "returns false if P4CLIENT is empty"  do
-      ENV['P4CLIENT'] = ""
-      Turbulence::Scm::Perforce.is_repo?(".").should == false
+      Turbulence::Scm::Perforce.is_repo?(".").should be_false
     end
 
     it "returns false if p4 is not available" do
-      ENV['PATH'] = ""
-      Turbulence::Scm::Perforce.is_repo?(".").should == false
+      Turbulence::Scm::Perforce.is_repo?(".").should be_false
     end
   end
 
