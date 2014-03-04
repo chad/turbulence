@@ -2,7 +2,7 @@ require 'rspec'
 require 'turbulence'
 
 describe Turbulence::CommandLineInterface do
-  let(:cli) { Turbulence::CommandLineInterface.new(%w(.)) }
+  let(:cli) { Turbulence::CommandLineInterface.new(%w(.), :output => nil) }
   describe "::TEMPLATE_FILES" do
     Turbulence::CommandLineInterface::TEMPLATE_FILES.each do |template_file|
       File.dirname(template_file).should == Turbulence::CommandLineInterface::TURBULENCE_TEMPLATE_PATH
@@ -22,7 +22,7 @@ describe Turbulence::CommandLineInterface do
     end
 
     it "passes along exclusion pattern" do
-      cli = Turbulence::CommandLineInterface.new(%w(--exclude turbulence))
+      cli = Turbulence::CommandLineInterface.new(%w(--exclude turbulence), :output => nil)
       cli.generate_bundle
       lines = File.new('turbulence/cc.js').readlines
       lines.any? { |l| l =~ /turbulence\.rb/ }.should be_false

@@ -16,7 +16,7 @@ class Turbulence
 
     attr_reader :exclusion_pattern
     attr_reader :directory
-    def initialize(argv)
+    def initialize(argv, additional_options = {})
       Turbulence::Calculators::Churn.scm = Scm::Git
       @graph_type = "turbulence"
       OptionParser.new do |opts|
@@ -54,6 +54,7 @@ class Turbulence
       end.parse!(argv)
 
       @directory = argv.first || Dir.pwd
+      @output = additional_options.fetch(:output, STDOUT)
     end
 
     def copy_templates_into(directory)
@@ -64,7 +65,7 @@ class Turbulence
       FileUtils.mkdir_p("turbulence")
 
       Dir.chdir("turbulence") do
-        turb = Turbulence.new(directory,STDOUT, @exclusion_pattern)
+        turb = Turbulence.new(directory, @output, @exclusion_pattern)
 
         generator = case @graph_type
         when "treemap"
