@@ -74,7 +74,7 @@ changed 1 chunks 3 / 1 lines"
     end
 
     it "takes an optional argument to specify the range" do
-      expect{Turbulence::Scm::Perforce.log_command("@1,2")}.to_not raise_error(ArgumentError)
+      expect{Turbulence::Scm::Perforce.log_command("@1,2")}.to_not raise_error
     end
 
     it "lists insertions/deletions per file and change" do
