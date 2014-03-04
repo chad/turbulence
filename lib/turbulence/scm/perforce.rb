@@ -3,7 +3,7 @@ require 'pathname'
 
 class Turbulence
   module Scm
-    class Perforce 
+    class Perforce
       class << self
         def log_command(commit_range = "")
           full_log = ""
@@ -33,7 +33,7 @@ class Turbulence
         end
 
         def depot_to_local(depot_file)
-          abs_path = extract_clientfile_from_fstat_of(depot_file) 
+          abs_path = extract_clientfile_from_fstat_of(depot_file)
           Pathname.new(abs_path).relative_path_from(Pathname.new(FileUtils.pwd)).to_s
         end
 
@@ -64,7 +64,7 @@ class Turbulence
           "#{arr[0]}\t0\t#{arr[1]}\n"
         end
 
-        def sum_of_changes(p4_describe_output) 
+        def sum_of_changes(p4_describe_output)
           churn = 0
           p4_describe_output.each_line do |line|
             next unless line =~ /(add|deleted|changed) .* (\d+) lines/
