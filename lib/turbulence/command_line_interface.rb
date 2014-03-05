@@ -26,8 +26,6 @@ class Turbulence
       initialize_config_from_argv
       initialize_collaborators_from_configuration
       initialize_attrs_from_configuration
-
-      @directory = argv.first || Dir.pwd
     end
 
     def copy_templates_into(directory)
@@ -64,7 +62,7 @@ class Turbulence
 
     def initialize_config_from_argv
       Turbulence::Calculators::Churn.scm = Scm::Git
-      OptionParser.new do |opts|
+      option_parser = OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
 
         opts.on('--scm p4|git', String, 'scm to use (default: git)') do |s|
@@ -96,7 +94,10 @@ class Turbulence
           puts opts
           exit
         end
-      end.parse!(argv)
+      end
+      option_parser.parse!(argv)
+
+      config.directory = argv.first unless argv.empty?
     end
 
     def initialize_collaborators_from_configuration
@@ -108,6 +109,7 @@ class Turbulence
     def initialize_attrs_from_configuration
       @exclusion_pattern = config.exclusion_pattern
       @graph_type        = config.graph_type
+      @directory         = config.directory
     end
   end
 end
