@@ -65,7 +65,6 @@ class Turbulence
     attr_reader :argv
 
     def initialize_config_from_argv
-      Turbulence::Calculators::Churn.scm = Scm::Git
       option_parser = OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
 
