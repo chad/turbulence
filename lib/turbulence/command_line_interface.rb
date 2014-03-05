@@ -16,6 +16,8 @@ class Turbulence
 
     attr_reader :exclusion_pattern
     attr_reader :directory
+    attr_reader :graph_type
+
     def initialize(argv, additional_options = {})
       Turbulence::Calculators::Churn.scm = Scm::Git
       @graph_type = "turbulence"
