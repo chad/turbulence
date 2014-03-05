@@ -21,13 +21,13 @@ class Turbulence
 
     def initialize(argv, additional_options = {})
       @argv = argv
+      @output = additional_options.fetch(:output, STDOUT)
 
       initialize_config_from_argv
       initialize_collaborators_from_configuration
+      initialize_attrs_from_configuration
 
       @directory = argv.first || Dir.pwd
-      @output = additional_options.fetch(:output, STDOUT)
-      initialize_attrs_from_configuration
     end
 
     def copy_templates_into(directory)
