@@ -19,8 +19,45 @@ class Turbulence
     attr_reader :graph_type
 
     def initialize(argv, additional_options = {})
-      Turbulence::Calculators::Churn.scm = Scm::Git
+      @argv = argv
       @graph_type = "turbulence"
+
+      initialize_config_from_argv
+
+      @directory = argv.first || Dir.pwd
+      @output = additional_options.fetch(:output, STDOUT)
+    end
+
+    def copy_templates_into(directory)
+      FileUtils.cp TEMPLATE_FILES, directory
+    end
+
+    def generate_bundle
+      FileUtils.mkdir_p("turbulence")
+
+      Dir.chdir("turbulence") do
+        turb = Turbulence.new(directory, @output, @exclusion_pattern)
+
+        generator = case @graph_type
+        when "treemap"
+          Turbulence::Generators::TreeMap.new({})
+        else
+          Turbulence::Generators::ScatterPlot.new({})
+        end
+
+        generator.generate_results(turb.metrics, self)
+      end
+    end
+
+    def open_bundle
+      Launchy.open("file:///#{directory}/turbulence/#{@graph_type}.html")
+    end
+
+    private
+    attr_reader :argv
+
+    def initialize_config_from_argv
+      Turbulence::Calculators::Churn.scm = Scm::Git
       OptionParser.new do |opts|
         opts.banner = "Usage: bule [options] [dir]"
 
@@ -54,34 +91,6 @@ class Turbulence
           exit
         end
       end.parse!(argv)
-
-      @directory = argv.first || Dir.pwd
-      @output = additional_options.fetch(:output, STDOUT)
-    end
-
-    def copy_templates_into(directory)
-      FileUtils.cp TEMPLATE_FILES, directory
-    end
-
-    def generate_bundle
-      FileUtils.mkdir_p("turbulence")
-
-      Dir.chdir("turbulence") do
-        turb = Turbulence.new(directory, @output, @exclusion_pattern)
-
-        generator = case @graph_type
-        when "treemap"
-          Turbulence::Generators::TreeMap.new({})
-        else
-          Turbulence::Generators::ScatterPlot.new({})
-        end
-
-        generator.generate_results(turb.metrics, self)
-      end
-    end
-
-    def open_bundle
-      Launchy.open("file:///#{directory}/turbulence/#{@graph_type}.html")
     end
   end
 end
