@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.add_dependency "flog", "~>4.1"
   s.add_dependency "json", ">= 1.4.6"
   s.add_dependency "launchy", ">= 2.0.0"
-  s.add_development_dependency 'rspec', '~> 2.6.0'
+  s.add_development_dependency 'rspec', '~> 2.14.0'
   s.add_development_dependency 'rake'
 
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
