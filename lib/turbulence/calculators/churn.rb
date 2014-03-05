@@ -1,10 +1,22 @@
+require 'forwardable'
+
 class Turbulence
   module Calculators
     class Churn
       RUBY_FILE_EXTENSION = ".rb"
 
       class << self
-        attr_accessor :scm, :compute_mean, :commit_range
+        attr_writer :config
+        def config
+          @config ||= Turbulence::Configuration.new
+        end
+
+        extend Forwardable
+        def_delegators :config, *[
+          :scm,          :scm=,
+          :commit_range, :commit_range=,
+          :compute_mean, :compute_mean=,
+        ]
 
         def for_these_files(files)
           changes_by_ruby_file.each do |filename, count|

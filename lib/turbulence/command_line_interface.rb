@@ -105,9 +105,7 @@ class Turbulence
     end
 
     def initialize_collaborators_from_configuration
-      Turbulence::Calculators::Churn.scm          = config.scm
-      Turbulence::Calculators::Churn.commit_range = config.commit_range
-      Turbulence::Calculators::Churn.compute_mean = config.compute_mean
+      Turbulence::Calculators::Churn.config = config
     end
   end
 end
