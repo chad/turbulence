@@ -3,11 +3,13 @@ require 'turbulence'
 
 describe Turbulence::CommandLineInterface do
   let(:cli) { Turbulence::CommandLineInterface.new(%w(.), :output => nil) }
+
   describe "::TEMPLATE_FILES" do
     Turbulence::CommandLineInterface::TEMPLATE_FILES.each do |template_file|
       File.dirname(template_file).should == Turbulence::CommandLineInterface::TURBULENCE_TEMPLATE_PATH
     end
   end
+
   describe "#generate_bundle" do
     before do
       FileUtils.remove_dir("turbulence", true)
@@ -28,6 +30,7 @@ describe Turbulence::CommandLineInterface do
       lines.any? { |l| l =~ /turbulence\.rb/ }.should be_false
     end
   end
+
   describe "command line options" do
     let(:cli_churn_range) { Turbulence::CommandLineInterface.new(%w(--churn-range f3e1d7a6..830b9d3d9f path/to/compute)) }
     let(:cli_churn_mean) { Turbulence::CommandLineInterface.new(%w(--churn-mean .)) }
