@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'launchy'
 require 'optparse'
+require 'turbulence/configuration'
 require 'turbulence/scm/git'
 require 'turbulence/scm/perforce'
 
@@ -20,12 +21,13 @@ class Turbulence
 
     def initialize(argv, additional_options = {})
       @argv = argv
-      @graph_type = "turbulence"
 
       initialize_config_from_argv
+      initialize_collaborators_from_configuration
 
       @directory = argv.first || Dir.pwd
       @output = additional_options.fetch(:output, STDOUT)
+      initialize_attrs_from_configuration
     end
 
     def copy_templates_into(directory)
@@ -38,7 +40,7 @@ class Turbulence
       Dir.chdir("turbulence") do
         turb = Turbulence.new(directory, @output, @exclusion_pattern)
 
-        generator = case @graph_type
+        generator = case graph_type
         when "treemap"
           Turbulence::Generators::TreeMap.new({})
         else
@@ -50,7 +52,11 @@ class Turbulence
     end
 
     def open_bundle
-      Launchy.open("file:///#{directory}/turbulence/#{@graph_type}.html")
+      Launchy.open("file:///#{directory}/turbulence/#{graph_type}.html")
+    end
+
+    def config
+      @config ||= Turbulence::Configuration.new
     end
 
     private
@@ -65,24 +71,24 @@ class Turbulence
           case s
           when "git", "", nil
           when "p4"
-            Turbulence::Calculators::Churn.scm = Scm::Perforce
+            config.scm = Scm::Perforce
           end
         end
 
         opts.on('--churn-range since..until', String, 'commit range to compute file churn') do |s|
-          Turbulence::Calculators::Churn.commit_range = s
+          config.commit_range = s
         end
 
         opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
-          Turbulence::Calculators::Churn.compute_mean = true
+          config.compute_mean = true
         end
 
         opts.on('--exclude pattern', String, 'exclude files matching pattern') do |pattern|
-          @exclusion_pattern = pattern
+          config.exclusion_pattern = pattern
         end
 
         opts.on('--treemap', String, 'output treemap graph instead of scatterplot') do |s|
-          @graph_type = "treemap"
+          config.graph_type = "treemap"
         end
 
 
@@ -91,6 +97,17 @@ class Turbulence
           exit
         end
       end.parse!(argv)
+    end
+
+    def initialize_collaborators_from_configuration
+      Turbulence::Calculators::Churn.scm          = config.scm
+      Turbulence::Calculators::Churn.commit_range = config.commit_range
+      Turbulence::Calculators::Churn.compute_mean = config.compute_mean
+    end
+
+    def initialize_attrs_from_configuration
+      @exclusion_pattern = config.exclusion_pattern
+      @graph_type        = config.graph_type
     end
   end
 end
