@@ -1,7 +1,7 @@
 require 'turbulence/calculators/churn'
 
 describe Turbulence::Calculators::Churn do
-  let(:calculator) { Turbulence::Calculators::Churn }
+  let(:calculator) { Turbulence::Calculators::Churn.new }
   before do
     calculator.stub(:scm_log_command) { "" }
   end

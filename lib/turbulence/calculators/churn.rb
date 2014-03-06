@@ -5,7 +5,18 @@ class Turbulence
     class Churn
       RUBY_FILE_EXTENSION = ".rb"
 
+      # DIY singleton-like behavior
       class << self
+        def instance
+          @instance ||= new
+        end
+
+        def method_missing(method, *args, &block)
+          instance.send(method, *args, &block)
+        end
+      end
+      # /DIY singleton-like behavior
+
         attr_writer :config
         def config
           @config ||= Turbulence::Configuration.new
