@@ -47,7 +47,7 @@ class Turbulence
           [filename, churn]
         end
 
-        def calculate_mean_of_churn(churn, sample_size) 
+        def calculate_mean_of_churn(churn, sample_size)
           return churn if sample_size < 1
           churn /= sample_size
         end
@@ -72,7 +72,6 @@ class Turbulence
         def scm_log_command
           scm.log_command(commit_range)
         end
-      end
     end
   end
 end
