@@ -9,7 +9,7 @@ class Turbulence
             case s
             when "git", "", nil
             when "p4"
-              config.scm = Scm::Perforce
+              config.scm_name = 'Perforce'
             end
           end
 

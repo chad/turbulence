@@ -5,6 +5,7 @@ class Turbulence
     attr_accessor *[
       :directory,
       :scm,
+      :scm_name,
       :commit_range,
       :compute_mean,
       :exclusion_pattern,
@@ -13,8 +14,13 @@ class Turbulence
 
     def initialize
       @directory  = Dir.pwd
-      @scm        = Turbulence::Scm::Git
       @graph_type = 'turbulence'
+      @scm_name   = 'Git'
+    end
+
+    # TODO: drop attr accessor and ivar once it stops getting set via Churn
+    def scm
+      @scm || Turbulence::Scm.const_get(scm_name)
     end
   end
 end
