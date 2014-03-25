@@ -39,7 +39,7 @@ class Turbulence
       FileUtils.mkdir_p("turbulence")
 
       Dir.chdir("turbulence") do
-        turb = Turbulence.new(directory, config.output, exclusion_pattern)
+        turb = Turbulence.new(config)
 
         generator = case graph_type
         when "treemap"

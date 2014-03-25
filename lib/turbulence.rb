@@ -20,7 +20,18 @@ class Turbulence
   attr_reader :exclusion_pattern
   attr_reader :metrics
 
-  def initialize(directory, output = nil, exclusion_pattern = nil)
+  def initialize(*args)
+    if args.first.respond_to?(:graph_type)
+      config = args.shift
+      directory         = config.directory
+      output            = config.output
+      exclusion_pattern = config.exclusion_pattern
+    else
+      directory         = args.shift
+      output            = args.shift
+      exclusion_pattern = args.shift
+    end
+
     @output            = output
     @metrics           = {}
     @exclusion_pattern = exclusion_pattern
