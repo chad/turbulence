@@ -1,5 +1,7 @@
 class Turbulence
   class CommandLineInterface
+    # I Update a Turbulence::Configuration instance to match the user's
+    # expectations (as expressed in ARGV)
     module ConfigParser
       def self.parse_argv_into_config(argv, config)
         option_parser = OptionParser.new do |opts|
