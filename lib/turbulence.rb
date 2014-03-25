@@ -17,16 +17,21 @@ class Turbulence
   CALCULATORS = [Turbulence::Calculators::Complexity,
                  Turbulence::Calculators::Churn]
 
-  attr_reader :exclusion_pattern
+  attr_reader :config
   attr_reader :metrics
 
-  def initialize(config)
-    @config            = config
-    @output            = config.output
-    @metrics           = {}
-    @exclusion_pattern = config.exclusion_pattern
+  extend Forwardable
+  def_delegators :config, *[
+    :directory,
+    :exclusion_pattern,
+    :output,
+  ]
 
-    Dir.chdir(config.directory) do
+  def initialize(config)
+    @config  = config
+    @metrics = {}
+
+    Dir.chdir(directory) do
       CALCULATORS.each(&method(:calculate_metrics_with))
     end
   end
@@ -48,7 +53,7 @@ class Turbulence
   end
 
   def report(this)
-    @output.print this unless @output.nil?
+    output.print this unless output.nil?
   end
 
   def set_file_metric(filename, metric, value)
@@ -61,8 +66,8 @@ class Turbulence
 
   private
   def exclude_files(files)
-    if not @exclusion_pattern.nil?
-      files = files.reject { |f| f =~ Regexp.new(@exclusion_pattern) }
+    if not exclusion_pattern.nil?
+      files = files.reject { |f| f =~ Regexp.new(exclusion_pattern) }
     end
     files
   end
