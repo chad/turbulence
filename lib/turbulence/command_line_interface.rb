@@ -19,9 +19,7 @@ class Turbulence
     end
 
     def initialize(argv, additional_options = {})
-      @argv = argv
-
-      initialize_config_from_argv
+      initialize_config_from_argv argv
       initialize_config_from_additional_options additional_options
       initialize_collaborators_from_configuration
     end
@@ -63,9 +61,8 @@ class Turbulence
     end
 
     private
-    attr_reader :argv
 
-    def initialize_config_from_argv
+    def initialize_config_from_argv(argv)
       ConfigParser.parse_argv_into_config argv, config
     end
 
