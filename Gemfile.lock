@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    turbulence (1.2.1)
+    turbulence (1.2.2)
       flog (~> 4.1)
       json (>= 1.4.6)
       launchy (>= 2.0.0)
