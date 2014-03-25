@@ -6,13 +6,13 @@ describe Turbulence do
 
   let(:config) {
     Turbulence::Configuration.new.tap do |config|
-      config.output = nil
-      config.directory = '.'
+      config.directory         = '.'
+      config.exclusion_pattern = nil
+      config.output            = nil
     end
   }
 
   it "finds files of interest" do
-    turb.exclusion_pattern.should be_nil
     turb.files_of_interest.should include "lib/turbulence.rb"
   end
   
