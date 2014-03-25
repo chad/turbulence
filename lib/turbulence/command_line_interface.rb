@@ -20,9 +20,9 @@ class Turbulence
 
     def initialize(argv, additional_options = {})
       @argv = argv
-      @output = additional_options.fetch(:output, STDOUT)
 
       initialize_config_from_argv
+      initialize_config_from_additional_options additional_options
       initialize_collaborators_from_configuration
     end
 
@@ -41,7 +41,7 @@ class Turbulence
       FileUtils.mkdir_p("turbulence")
 
       Dir.chdir("turbulence") do
-        turb = Turbulence.new(directory, @output, exclusion_pattern)
+        turb = Turbulence.new(directory, config.output, exclusion_pattern)
 
         generator = case graph_type
         when "treemap"
@@ -67,6 +67,10 @@ class Turbulence
 
     def initialize_config_from_argv
       ConfigParser.parse_argv_into_config argv, config
+    end
+
+    def initialize_config_from_additional_options(additional_options)
+      config.output = additional_options.fetch(:output, STDOUT)
     end
 
     def initialize_collaborators_from_configuration
