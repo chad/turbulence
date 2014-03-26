@@ -1,13 +1,9 @@
 class Turbulence
   module Calculators
     class Calculator
+      attr_reader :config
       def initialize(config = nil)
-        @config = config
-      end
-
-      attr_writer :config
-      def config
-        @config ||= Turbulence::Configuration.new
+        @config = config || Turbulence.config
       end
     end
   end

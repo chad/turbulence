@@ -26,6 +26,7 @@ class Turbulence
     end
 
     extend Forwardable
+    def_delegators :Turbulence, :config
     def_delegators :config, *[
       :directory,
       :graph_type,
@@ -55,10 +56,6 @@ class Turbulence
 
     def open_bundle
       Launchy.open("file:///#{directory}/turbulence/#{graph_type}.html")
-    end
-
-    def config
-      @config ||= Turbulence::Configuration.new
     end
   end
 end

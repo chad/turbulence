@@ -1,3 +1,4 @@
+require 'turbulence/configuration'
 require 'turbulence/file_name_mangler'
 require 'turbulence/command_line_interface'
 require 'turbulence/calculators/churn'
@@ -20,6 +21,11 @@ class Turbulence
     Turbulence::Calculators::Churn,
   ]
 
+  # Make a config instance available to anyone who wants one
+  def self.config
+    @config ||= Configuration.new
+  end
+
   attr_reader :config
   attr_reader :metrics
 
@@ -30,8 +36,8 @@ class Turbulence
     :output,
   ]
 
-  def initialize(config)
-    @config  = config
+  def initialize(config = nil)
+    @config  = config || Turbulence.config
     @metrics = {}
 
     Dir.chdir(directory) do
