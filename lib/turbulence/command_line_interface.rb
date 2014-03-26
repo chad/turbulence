@@ -73,7 +73,11 @@ class Turbulence
     end
 
     def initialize_collaborators_from_configuration
-      Turbulence::Calculators::Churn.config = config
+      churn_calculator.config = config
+    end
+
+    def churn_calculator
+      Turbulence::Calculators::Churn
     end
   end
 end
