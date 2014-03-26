@@ -1,11 +1,14 @@
-require 'turbulence/calculators/calculator' # TODO: DRY this up
-
 require 'forwardable'
 
 class Turbulence
   module Calculators
-    class Churn < Calculator
+    class Churn
       RUBY_FILE_EXTENSION = ".rb"
+
+      attr_reader :config
+      def initialize(config = nil)
+        @config = config || Turbulence.config
+      end
 
       extend Forwardable
       def_delegators :config, *[

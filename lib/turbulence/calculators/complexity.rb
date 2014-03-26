@@ -1,5 +1,3 @@
-require 'turbulence/calculators/calculator' # TODO: DRY this up
-
 require 'stringio'
 require 'flog'
 
@@ -19,7 +17,12 @@ end
 
 class Turbulence
   module Calculators
-    class Complexity < Calculator
+    class Complexity
+      attr_reader :config
+      def initialize(config = nil)
+        @config = config || Turbulence.config
+      end
+
       def flogger
         @flogger ||= Flog19.new(:continue => true)
       end
