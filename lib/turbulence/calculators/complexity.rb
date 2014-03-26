@@ -18,7 +18,18 @@ end
 class Turbulence
   module Calculators
     class Complexity
+      # DIY singleton-like behavior
       class << self
+        def instance
+          @instance ||= new
+        end
+
+        def method_missing(method, *args, &block)
+          instance.send(method, *args, &block)
+        end
+      end
+      # /DIY singleton-like behavior
+
         def flogger
           @flogger ||= Flog19.new(:continue => true)
         end
@@ -34,7 +45,6 @@ class Turbulence
           flogger.flog filename
           flogger.total_score
         end
-      end
     end
   end
 end
