@@ -36,7 +36,7 @@ class Turbulence
     @metrics = {}
 
     Dir.chdir(directory) do
-      CALCULATORS.each(&method(:calculate_metrics_with))
+      calculators.each(&method(:calculate_metrics_with))
     end
   end
 
@@ -74,5 +74,9 @@ class Turbulence
       files = files.reject { |f| f =~ Regexp.new(exclusion_pattern) }
     end
     files
+  end
+
+  def calculators
+    CALCULATORS.map { |calc_class| calc_class.new(config) }
   end
 end
