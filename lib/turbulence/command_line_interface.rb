@@ -21,9 +21,9 @@ class Turbulence
     end
 
     def initialize(argv, additional_options = {})
-      initialize_config_from_argv argv
-      initialize_config_from_additional_options additional_options
-      initialize_collaborators_from_configuration
+      ConfigParser.parse_argv_into_config argv, config
+      config.output = additional_options.fetch(:output, STDOUT)
+      churn_calculator.config = config
     end
 
     extend Forwardable
@@ -63,18 +63,6 @@ class Turbulence
     end
 
     private
-
-    def initialize_config_from_argv(argv)
-      ConfigParser.parse_argv_into_config argv, config
-    end
-
-    def initialize_config_from_additional_options(additional_options)
-      config.output = additional_options.fetch(:output, STDOUT)
-    end
-
-    def initialize_collaborators_from_configuration
-      churn_calculator.config = config
-    end
 
     def churn_calculator
       Turbulence::Calculators::Churn
