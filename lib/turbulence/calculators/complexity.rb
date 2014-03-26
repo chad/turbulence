@@ -30,21 +30,21 @@ class Turbulence
       end
       # /DIY singleton-like behavior
 
-        def flogger
-          @flogger ||= Flog19.new(:continue => true)
-        end
+      def flogger
+        @flogger ||= Flog19.new(:continue => true)
+      end
 
-        def for_these_files(files)
-          files.each do |filename|
-            yield filename, score_for_file(filename)
-          end
+      def for_these_files(files)
+        files.each do |filename|
+          yield filename, score_for_file(filename)
         end
+      end
 
-        def score_for_file(filename)
-          flogger.reset
-          flogger.flog filename
-          flogger.total_score
-        end
+      def score_for_file(filename)
+        flogger.reset
+        flogger.flog filename
+        flogger.total_score
+      end
     end
   end
 end
