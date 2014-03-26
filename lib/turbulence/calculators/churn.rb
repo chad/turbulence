@@ -1,3 +1,4 @@
+require 'forwardable'
 require 'turbulence/calculators/calculator' # TODO: DRY this up
 
 class Turbulence
@@ -5,6 +6,7 @@ class Turbulence
     class Churn < Calculator
       RUBY_FILE_EXTENSION = ".rb"
 
+      extend Forwardable
       def_delegators :config, *[
         :scm,          :scm=,
         :commit_range, :commit_range=,
