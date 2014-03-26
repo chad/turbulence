@@ -1,3 +1,5 @@
+require 'turbulence/calculators/calculator' # TODO: DRY this up
+
 require 'stringio'
 require 'flog'
 
@@ -17,19 +19,7 @@ end
 
 class Turbulence
   module Calculators
-    class Complexity
-      # DIY singleton-like behavior
-      class << self
-        def instance
-          @instance ||= new
-        end
-
-        def method_missing(method, *args, &block)
-          instance.send(method, *args, &block)
-        end
-      end
-      # /DIY singleton-like behavior
-
+    class Complexity < Calculator
       def flogger
         @flogger ||= Flog19.new(:continue => true)
       end
