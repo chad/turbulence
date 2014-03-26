@@ -1,5 +1,6 @@
-require 'forwardable'
 require 'turbulence/calculators/calculator' # TODO: DRY this up
+
+require 'forwardable'
 
 class Turbulence
   module Calculators

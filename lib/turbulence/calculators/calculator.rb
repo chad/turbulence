@@ -1,5 +1,3 @@
-require 'forwardable'
-
 class Turbulence
   module Calculators
     class Calculator
