@@ -22,6 +22,7 @@ class Turbulence
         def flogger
           @flogger ||= Flog19.new(:continue => true)
         end
+
         def for_these_files(files)
           files.each do |filename|
             yield filename, score_for_file(filename)

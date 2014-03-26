@@ -7,15 +7,19 @@ require 'turbulence/generators/treemap'
 require 'turbulence/generators/scatterplot'
 
 class Turbulence
-  CODE_DIRECTORIES = ["app/models",
-                      "app/controllers",
-                      "app/helpers",
-                      "app/jobs",
-                      "app/mailers",
-                      "app/validators",
-                      "lib"]
-  CALCULATORS = [Turbulence::Calculators::Complexity,
-                 Turbulence::Calculators::Churn]
+  CODE_DIRECTORIES = [
+    "app/models",
+    "app/controllers",
+    "app/helpers",
+    "app/jobs",
+    "app/mailers",
+    "app/validators",
+    "lib",
+  ]
+  CALCULATORS = [
+    Turbulence::Calculators::Complexity,
+    Turbulence::Calculators::Churn,
+  ]
 
   attr_reader :config
   attr_reader :metrics

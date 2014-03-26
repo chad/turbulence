@@ -11,10 +11,12 @@ require 'turbulence/scm/perforce'
 class Turbulence
   class CommandLineInterface
     TURBULENCE_TEMPLATE_PATH = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "template")
-    TEMPLATE_FILES = ['turbulence.html',
-                      'highcharts.js',
-                      'jquery.min.js',
-                      'treemap.html'].map do |filename|
+    TEMPLATE_FILES = [
+      'turbulence.html',
+      'highcharts.js',
+      'jquery.min.js',
+      'treemap.html',
+    ].map do |filename|
       File.join(TURBULENCE_TEMPLATE_PATH, filename)
     end
 
