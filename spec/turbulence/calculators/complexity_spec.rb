@@ -1,7 +1,9 @@
 require 'turbulence/calculators/complexity'
 
 describe Turbulence::Calculators::Complexity do
-  let(:calculator) { Turbulence::Calculators::Complexity }
+  let(:calculator) { Turbulence::Calculators::Complexity.new(config) }
+  let(:config) { Turbulence::Configuration.new }
+
   describe "::for_these_files" do
     it "yields up the filename and score for each file" do
       files = ["lib/corey.rb", "lib/chad.rb"]

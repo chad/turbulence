@@ -1,32 +1,47 @@
+require 'turbulence/configuration'
 require 'turbulence/file_name_mangler'
 require 'turbulence/command_line_interface'
-require 'turbulence/checks_environment'
 require 'turbulence/calculators/churn'
 require 'turbulence/calculators/complexity'
 require 'turbulence/generators/treemap'
 require 'turbulence/generators/scatterplot'
 
 class Turbulence
-  CODE_DIRECTORIES = ["app/models",
-                      "app/controllers",
-                      "app/helpers",
-                      "app/jobs",
-                      "app/mailers",
-                      "app/validators",
-                      "lib"]
-  CALCULATORS = [Turbulence::Calculators::Complexity,
-                 Turbulence::Calculators::Churn]
+  CODE_DIRECTORIES = [
+    "app/models",
+    "app/controllers",
+    "app/helpers",
+    "app/jobs",
+    "app/mailers",
+    "app/validators",
+    "lib",
+  ]
+  CALCULATORS = [
+    Turbulence::Calculators::Complexity,
+    Turbulence::Calculators::Churn,
+  ]
 
-  attr_reader :exclusion_pattern
+  # Make a config instance available to anyone who wants one
+  def self.config
+    @config ||= Configuration.new
+  end
+
+  attr_reader :config
   attr_reader :metrics
 
-  def initialize(directory, output = nil, exclusion_pattern = nil)
-    @output            = output
-    @metrics           = {}
-    @exclusion_pattern = exclusion_pattern
+  extend Forwardable
+  def_delegators :config, *[
+    :directory,
+    :exclusion_pattern,
+    :output,
+  ]
+
+  def initialize(config = nil)
+    @config  = config || Turbulence.config
+    @metrics = {}
 
     Dir.chdir(directory) do
-      CALCULATORS.each(&method(:calculate_metrics_with))
+      calculators.each(&method(:calculate_metrics_with))
     end
   end
 
@@ -47,7 +62,7 @@ class Turbulence
   end
 
   def report(this)
-    @output.print this unless @output.nil?
+    output.print this unless output.nil?
   end
 
   def set_file_metric(filename, metric, value)
@@ -60,9 +75,13 @@ class Turbulence
 
   private
   def exclude_files(files)
-    if not @exclusion_pattern.nil?
-      files = files.reject { |f| f =~ Regexp.new(@exclusion_pattern) }
+    if not exclusion_pattern.nil?
+      files = files.reject { |f| f =~ Regexp.new(exclusion_pattern) }
     end
     files
+  end
+
+  def calculators
+    CALCULATORS.map { |calc_class| calc_class.new(config) }
   end
 end
