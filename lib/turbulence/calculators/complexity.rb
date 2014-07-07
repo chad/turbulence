@@ -18,9 +18,11 @@ end
 class Turbulence
   module Calculators
     class Complexity
-      attr_reader :config
+      attr_reader :config, :type
+
       def initialize(config = nil)
         @config = config || Turbulence.config
+        @type = :complexity
       end
 
       def flogger
