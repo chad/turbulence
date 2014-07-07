@@ -55,7 +55,7 @@ class Turbulence
 
     calculator.for_these_files(files_of_interest) do |filename, score|
       report "."
-      set_file_metric(filename, calculator, score)
+      set_file_metric(filename, calculator.class, score)
     end
 
     report "\n"
