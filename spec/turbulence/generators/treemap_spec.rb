@@ -4,8 +4,8 @@ describe Turbulence::Generators::TreeMap do
   context "with both Metrics" do
     it "generates JavaScript" do
       generator = Turbulence::Generators::TreeMap.new(
-        "foo.rb" => { Turbulence::Calculators::Churn      => 1,
-                      Turbulence::Calculators::Complexity => 2 }
+        "foo.rb" => { :churn      => 1,
+                      :complexity => 2 }
       )
 
       generator.build_js.should =~ /var treemap_data/
@@ -16,7 +16,7 @@ describe Turbulence::Generators::TreeMap do
   context "with a missing Metric" do
     it "generates JavaScript" do
       generator = Turbulence::Generators::TreeMap.new(
-        "foo.rb" => { Turbulence::Calculators::Churn => 1 }
+        "foo.rb" => { :churn => 1 }
       )
 
       generator.build_js.should == "var treemap_data = [['File', 'Parent', 'Churn (size)', 'Complexity (color)'],\n['Root', null, 0, 0],\n];"

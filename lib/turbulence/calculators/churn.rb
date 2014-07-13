@@ -5,9 +5,11 @@ class Turbulence
     class Churn
       RUBY_FILE_EXTENSION = ".rb"
 
-      attr_reader :config
+      attr_reader :config, :type
+
       def initialize(config = nil)
         @config = config || Turbulence.config
+        @type = :churn
       end
 
       extend Forwardable

@@ -4,8 +4,8 @@ class Turbulence
       attr_reader :metrics_hash, :x_metric, :y_metric
 
       def initialize(metrics_hash,
-                     x_metric = Turbulence::Calculators::Churn,
-                     y_metric = Turbulence::Calculators::Complexity)
+                     x_metric = :churn,
+                     y_metric = :complexity)
         @x_metric     = x_metric
         @y_metric     = y_metric
         @metrics_hash = metrics_hash
