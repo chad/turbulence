@@ -16,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rake'
 
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
-  s.description = %q{Based on this http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2}
+  s.description = %q{Automates churn + flog scoring on a git repo for a Ruby project. Based on the article https://www.stickyminds.com/article/getting-empirical-about-refactoring}
 
   s.rubyforge_project = "turbulence"
 
