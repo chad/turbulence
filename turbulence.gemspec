@@ -18,8 +18,6 @@ Gem::Specification.new do |s|
   s.summary     = %q{Automates churn + flog scoring on a git repo for a Ruby project}
   s.description = %q{Automates churn + flog scoring on a git repo for a Ruby project. Based on the article https://www.stickyminds.com/article/getting-empirical-about-refactoring}
 
-  s.rubyforge_project = "turbulence"
-
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
