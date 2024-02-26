@@ -19,7 +19,7 @@ class Turbulence
             config.commit_range = s
           end
 
-          opts.on('--churn-mean', 'calculate mean churn instead of cummulative') do
+          opts.on('--churn-mean', 'calculate mean churn instead of cumulative') do
             config.compute_mean = true
           end
 
