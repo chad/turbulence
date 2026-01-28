@@ -55,6 +55,7 @@ class Turbulence
     end
 
     def open_bundle
+      return unless config.open_bundle
       Launchy.open("file:///#{directory}/turbulence/#{graph_type}.html")
     end
   end

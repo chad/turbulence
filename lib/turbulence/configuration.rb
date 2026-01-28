@@ -11,13 +11,15 @@ class Turbulence
       :exclusion_pattern,
       :graph_type,
       :output,
+      :open_bundle,
     ]
 
     def initialize
-      @directory  = Dir.pwd
-      @graph_type = 'turbulence'
-      @scm_name   = 'Git'
-      @output     = STDOUT
+      @directory   = Dir.pwd
+      @graph_type  = 'turbulence'
+      @scm_name    = 'Git'
+      @output      = STDOUT
+      @open_bundle = true
     end
 
     # TODO: drop attr accessor and ivar once it stops getting set via Churn
