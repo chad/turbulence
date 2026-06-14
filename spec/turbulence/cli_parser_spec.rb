@@ -37,4 +37,14 @@ describe Turbulence::CommandLineInterface::ConfigParser do
     parse %w( --treemap )
     expect(config.graph_type).to eq 'treemap'
   end
+
+  it "sets no_open" do
+    parse %w( --no-open )
+    expect(config.no_open).to be true
+  end
+
+  it "sets output_dir" do
+    parse %w( --output spec/reports/turbulence )
+    expect(config.output_dir).to eq 'spec/reports/turbulence'
+  end
 end
