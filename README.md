@@ -7,6 +7,16 @@ Turbulence visualizes churn vs complexity for your Ruby codebase, helping you id
 
 Based on Michael Feathers' work on [getting empirical about refactoring](https://www.stickyminds.com/article/getting-empirical-about-refactoring).
 
+## Screenshots
+
+### Scatter Plot (default)
+
+![Scatter Plot](docs/scatter-plot.png)
+
+### Treemap
+
+![Treemap](docs/treemap.png)
+
 ## How to Read the Graph
 
 The scatter plot places each file according to its **churn** (x-axis) and **complexity** (y-axis):
