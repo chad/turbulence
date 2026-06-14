@@ -1,5 +1,3 @@
-require 'ostruct'
-
 class Turbulence
   class Configuration
     attr_accessor *[

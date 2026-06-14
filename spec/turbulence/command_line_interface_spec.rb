@@ -6,7 +6,9 @@ describe Turbulence::CommandLineInterface do
 
   describe "::TEMPLATE_FILES" do
     Turbulence::CommandLineInterface::TEMPLATE_FILES.each do |template_file|
-      File.dirname(template_file).should == Turbulence::CommandLineInterface::TURBULENCE_TEMPLATE_PATH
+      it "has #{File.basename(template_file)} in the template path" do
+        expect(File.dirname(template_file)).to eq Turbulence::CommandLineInterface::TURBULENCE_TEMPLATE_PATH
+      end
     end
   end
 
@@ -16,18 +18,18 @@ describe Turbulence::CommandLineInterface do
     end
     it "bundles the files" do
       cli.generate_bundle
-      Dir.glob('turbulence/*').sort.should eq(["turbulence/cc.js",
-                                               "turbulence/highcharts.js",
-                                               "turbulence/jquery.min.js",
-                                               "turbulence/treemap.html",
-                                               "turbulence/turbulence.html"])
+      expect(Dir.glob('turbulence/*').sort).to eq(["turbulence/cc.js",
+                                                   "turbulence/highcharts.js",
+                                                   "turbulence/jquery.min.js",
+                                                   "turbulence/treemap.html",
+                                                   "turbulence/turbulence.html"])
     end
 
     it "passes along exclusion pattern" do
       cli = Turbulence::CommandLineInterface.new(%w(--exclude turbulence), :output => nil)
       cli.generate_bundle
       lines = File.new('turbulence/cc.js').readlines
-      lines.any? { |l| l =~ /turbulence\.rb/ }.should be_false
+      expect(lines.any? { |l| l =~ /turbulence\.rb/ }).to be false
     end
   end
 end

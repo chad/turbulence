@@ -2,14 +2,14 @@ require 'turbulence'
 
 describe Turbulence::Generators::TreeMap do
   context "with both Metrics" do
-    it "generates JavaScript" do
+    it "generates JavaScript", :aggregate_failures do
       generator = Turbulence::Generators::TreeMap.new(
         "foo.rb" => { :churn      => 1,
                       :complexity => 2 }
       )
 
-      generator.build_js.should =~ /var treemap_data/
-      generator.build_js.should =~ /\'foo.rb\'/
+      expect(generator.build_js).to match(/var treemap_data/)
+      expect(generator.build_js).to match(/\'foo.rb\'/)
     end
   end
 
@@ -19,7 +19,7 @@ describe Turbulence::Generators::TreeMap do
         "foo.rb" => { :churn => 1 }
       )
 
-      generator.build_js.should == "var treemap_data = [['File', 'Parent', 'Churn (size)', 'Complexity (color)'],\n['Root', null, 0, 0],\n];"
+      expect(generator.build_js).to eq "var treemap_data = [['File', 'Parent', 'Churn (size)', 'Complexity (color)'],\n['Root', null, 0, 0],\n];"
     end
   end
 end

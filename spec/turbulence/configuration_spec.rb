@@ -1,4 +1,5 @@
 require 'rspec'
+require 'rspec/its'
 require 'turbulence'
 
 describe Turbulence::Configuration do

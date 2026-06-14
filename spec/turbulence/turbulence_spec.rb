@@ -13,11 +13,11 @@ describe Turbulence do
   }
 
   it "finds files of interest" do
-    turb.files_of_interest.should include "lib/turbulence.rb"
+    expect(turb.files_of_interest).to include "lib/turbulence.rb"
   end
-  
-  it "filters out exluded files" do
+
+  it "filters out excluded files" do
     config.exclusion_pattern = 'turbulence'
-    turb.files_of_interest.should_not include "lib/turbulence.rb"
+    expect(turb.files_of_interest).not_to include "lib/turbulence.rb"
   end
 end
