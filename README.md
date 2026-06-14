@@ -60,6 +60,7 @@ Options:
   --churn-mean          Calculate mean churn instead of cumulative
   --exclude PATTERN     Exclude files matching pattern
   --treemap             Output treemap graph instead of scatter plot
+  --no-open             Skip opening the report in a browser
 ```
 
 ### Examples
@@ -76,6 +77,9 @@ bule --scm p4
 
 # Analyze only recent changes
 bule --churn-range HEAD~100..HEAD
+
+# Generate report without opening browser (useful for CI)
+bule --no-open
 
 # Exclude test files
 bule --exclude spec

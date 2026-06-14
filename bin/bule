@@ -11,4 +11,4 @@ unless Turbulence::ChecksEnvironment.scm_repo?(Dir.pwd)
 end
 
 cli.generate_bundle
-cli.open_bundle
+cli.open_bundle unless cli.no_open
