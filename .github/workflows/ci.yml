@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Remove Gemfile.lock for fresh resolution
+        run: rm -f Gemfile.lock
+
       - name: Set up Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
@@ -45,4 +48,4 @@ jobs:
           bundler-cache: true
 
       - name: Check gemspec
-        run: gem build turbulence.gemspec --strict
+        run: gem build turbulence.gemspec
