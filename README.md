@@ -1,51 +1,99 @@
-Hopefully-meaningful Metrics
-============================
+# Turbulence
 
 [![CI](https://github.com/chad/turbulence/actions/workflows/ci.yml/badge.svg)](https://github.com/chad/turbulence/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/turbulence.svg)](https://badge.fury.io/rb/turbulence)
 
-Based on Michael Feathers' [recent work](http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2) in project churn and complexity.
+Turbulence visualizes churn vs complexity for your Ruby codebase, helping you identify files that are both highly complex and frequently changed - prime candidates for refactoring.
 
-Here is how to read the graph (extracted from the above article):
+Based on Michael Feathers' work on [getting empirical about refactoring](https://www.stickyminds.com/article/getting-empirical-about-refactoring).
 
-* The upper right quadrant is particularly important.
-These files have a high degree of complexity, and they change quite frequently.
-There are a number of reasons why this can happen.
-The one to look out for, though, is something I call runaway conditionals.
-Sometimes a class becomes so complex that refactoring seems too difficult.
-Developers hack if-then-elses into if-then-elses, and the rat’s nest grows. These classes are particularly ripe for a refactoring investment.
+## How to Read the Graph
 
-* The lower left quadrant. is the healthy closure region.
-Abstractions here have low complexity and don't change much.
+The scatter plot places each file according to its **churn** (x-axis) and **complexity** (y-axis):
 
-* The upper left is what I call the cowboy region. This is complex code that sprang from someone's head and didn't seem to grow incrementally.
+| Quadrant | Location | What it means |
+|----------|----------|---------------|
+| **Danger Zone** | Upper right | High complexity + high churn. These files change often and are hard to work with. Prime refactoring candidates! |
+| **Healthy Closure** | Lower left | Low complexity + low churn. Stable, well-factored code. Leave it alone. |
+| **Cowboy Code** | Upper left | High complexity + low churn. Complex code that sprang from someone's head fully formed. May need attention if it starts changing. |
+| **Fertile Ground** | Lower right | Low complexity + high churn. Often configuration or incubators for new abstractions. Code grows here, then gets extracted. |
 
-* The bottom right is very interesting. I call it the fertile ground.
-It can consist of files that are somewhat configurational, but often there are also files that act as incubators for new abstractions.
-People add code, it grows, and then they factor outward, extracting new classes. The files churn frequently, but their complexity remains low.
+## Requirements
 
+- Ruby 3.0 or later
+- Git or Perforce
 
-Installation
-------------
+## Installation
 
-    $ gem install turbulence
+```bash
+gem install turbulence
+```
 
-Usage
------
+## Usage
+
 In your project directory, run:
 
-    $ bule
+```bash
+bule
+```
 
-and it will generate (and open) turbulence/turbulence.html 
+This generates and opens `turbulence/turbulence.html` with an interactive scatter plot.
 
-Supported SCM systems
----------------------
-Currently, bule defaults to using git. If you are using Perforce, call it like so:
+### Options
 
-    $ bule --scm p4
+```bash
+bule [options] [directory]
 
-You need to have an environment variable P4CLIENT set to the name of your client workspace.
+Options:
+  --scm p4|git          SCM to use (default: git)
+  --churn-range A..B    Commit range to compute file churn
+  --churn-mean          Calculate mean churn instead of cumulative
+  --exclude PATTERN     Exclude files matching pattern
+  --treemap             Output treemap graph instead of scatter plot
+```
 
-WARNING
--------
-When you run bule, it creates a JavaScript file which contains your file paths and names.  If those are sensitive, be careful where you put these generated files and who you share them with.
+### Examples
+
+```bash
+# Analyze current directory
+bule
+
+# Analyze a specific directory
+bule path/to/project
+
+# Use Perforce instead of Git
+bule --scm p4
+
+# Analyze only recent changes
+bule --churn-range HEAD~100..HEAD
+
+# Exclude test files
+bule --exclude spec
+```
+
+### Perforce Support
+
+For Perforce, set the `P4CLIENT` environment variable to your client workspace name:
+
+```bash
+export P4CLIENT=my-workspace
+bule --scm p4
+```
+
+## Privacy Warning
+
+Turbulence generates a JavaScript file containing your file paths and names. If these are sensitive, be careful where you put the generated files and who you share them with.
+
+## Contributing
+
+Bug reports and pull requests are welcome on [GitHub](https://github.com/chad/turbulence).
+
+## License
+
+[MIT License](LICENSE.txt)
+
+## Authors
+
+- [Chad Fowler](https://github.com/chad)
+- [Michael Feathers](https://github.com/michaelfeathers)
+- [Corey Haines](https://github.com/coreyhaines)
