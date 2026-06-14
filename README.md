@@ -61,6 +61,7 @@ Options:
   --exclude PATTERN     Exclude files matching pattern
   --treemap             Output treemap graph instead of scatter plot
   --no-open             Skip opening the report in a browser
+  --output DIR          Output directory for reports (default: ./turbulence)
 ```
 
 ### Examples
@@ -80,6 +81,9 @@ bule --churn-range HEAD~100..HEAD
 
 # Generate report without opening browser (useful for CI)
 bule --no-open
+
+# Output to a custom directory
+bule --output spec/reports/turbulence
 
 # Exclude test files
 bule --exclude spec

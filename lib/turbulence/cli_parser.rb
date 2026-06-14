@@ -35,6 +35,10 @@ class Turbulence
             config.no_open = true
           end
 
+          opts.on('--output DIR', String, 'output directory for reports (default: ./turbulence)') do |dir|
+            config.output_dir = dir
+          end
+
           opts.on_tail("-h", "--help", "Show this message") do
             puts opts
             exit

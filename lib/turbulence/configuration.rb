@@ -9,6 +9,7 @@ class Turbulence
       :exclusion_pattern,
       :graph_type,
       :output,
+      :output_dir,
       :no_open,
     ]
 
@@ -17,6 +18,7 @@ class Turbulence
       @graph_type = 'turbulence'
       @scm_name   = 'Git'
       @output     = STDOUT
+      @output_dir = nil
       @no_open    = false
     end
 

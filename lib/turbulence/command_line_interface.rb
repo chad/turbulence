@@ -32,16 +32,21 @@ class Turbulence
       :graph_type,
       :exclusion_pattern,
       :no_open,
+      :output_dir,
     ]
+
+    def output_path
+      output_dir || File.join(Dir.pwd, "turbulence")
+    end
 
     def copy_templates_into(directory)
       FileUtils.cp TEMPLATE_FILES, directory
     end
 
     def generate_bundle
-      FileUtils.mkdir_p("turbulence")
+      FileUtils.mkdir_p(output_path)
 
-      Dir.chdir("turbulence") do
+      Dir.chdir(output_path) do
         turb = Turbulence.new(config)
 
         generator = case graph_type
@@ -56,7 +61,7 @@ class Turbulence
     end
 
     def open_bundle
-      Launchy.open("file:///#{directory}/turbulence/#{graph_type}.html")
+      Launchy.open("file:///#{output_path}/#{graph_type}.html")
     end
   end
 end
