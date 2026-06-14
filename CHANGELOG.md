@@ -7,12 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-06-13
+
 ### Added
 - `--output DIR` option to specify custom output directory for reports ([#39])
 - `--no-open` flag to skip automatic browser launch, useful for CI/headless environments ([#42])
 - GitHub Actions CI testing Ruby 3.0, 3.1, 3.2, 3.3, and head ([#52])
 - CI status badge and RubyGems version badge in README ([#52])
 - LICENSE.txt file (MIT License)
+- Screenshots of scatter plot and treemap visualizations in README ([#58])
 
 ### Changed
 - **Ruby 3.0+ / Ruby 4.0 compatibility** ([#50])
@@ -22,9 +25,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Remove unused `ostruct` require
   - Fix git repo detection with case-insensitive regex
 - Update RSpec from 2.x to 3.x and modernize all specs ([#50])
+- Modernize README with table format, examples, and requirements ([#56])
 - Drop defunct `rubyforge_project` property from gemspec ([#46])
 - Update referenced URL in gemspec description ([#44])
 - Use symbols instead of class names as metrics_hash keys ([#34])
+
+### Removed
+- Travis CI configuration (replaced by GitHub Actions) ([#56])
+
+### Fixed
+- Fix typo: "cummulative" → "cumulative" ([#54])
 
 ## [1.2.4] - 2014-10-15
 
@@ -157,6 +167,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - README with basic documentation
 
 [Unreleased]: https://github.com/chad/turbulence/compare/1.2.4...HEAD
+[1.3.0]: https://github.com/chad/turbulence/compare/1.2.4...1.3.0
 [1.2.4]: https://github.com/chad/turbulence/compare/1.2.3...1.2.4
 [1.2.3]: https://github.com/chad/turbulence/compare/1.2.2...1.2.3
 [1.2.2]: https://github.com/chad/turbulence/compare/1.2.0...1.2.2
@@ -171,10 +182,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/chad/turbulence/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/chad/turbulence/releases/tag/0.0.2
 
+[#58]: https://github.com/chad/turbulence/pull/58
+[#56]: https://github.com/chad/turbulence/pull/56
+[#54]: https://github.com/chad/turbulence/pull/54
 [#52]: https://github.com/chad/turbulence/pull/52
 [#50]: https://github.com/chad/turbulence/pull/50
 [#46]: https://github.com/chad/turbulence/pull/46
 [#44]: https://github.com/chad/turbulence/pull/44
+[#42]: https://github.com/chad/turbulence/issues/42
+[#39]: https://github.com/chad/turbulence/issues/39
 [#34]: https://github.com/chad/turbulence/pull/34
 [#33]: https://github.com/chad/turbulence/pull/33
 [#32]: https://github.com/chad/turbulence/pull/32
