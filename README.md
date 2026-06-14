@@ -1,6 +1,9 @@
 Hopefully-meaningful Metrics
 ============================
 
+[![CI](https://github.com/chad/turbulence/actions/workflows/ci.yml/badge.svg)](https://github.com/chad/turbulence/actions/workflows/ci.yml)
+[![Gem Version](https://badge.fury.io/rb/turbulence.svg)](https://badge.fury.io/rb/turbulence)
+
 Based on Michael Feathers' [recent work](http://www.stickyminds.com/sitewide.asp?Function=edetail&ObjectType=COL&ObjectId=16679&tth=DYN&tt=siteemail&iDyn=2) in project churn and complexity.
 
 Here is how to read the graph (extracted from the above article):
