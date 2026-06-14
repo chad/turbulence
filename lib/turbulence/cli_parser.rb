@@ -31,6 +31,9 @@ class Turbulence
             config.graph_type = "treemap"
           end
 
+          opts.on('--no-open', 'skip opening the report in a browser') do
+            config.no_open = true
+          end
 
           opts.on_tail("-h", "--help", "Show this message") do
             puts opts

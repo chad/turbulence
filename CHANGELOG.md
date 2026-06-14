@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `--no-open` flag to skip automatic browser launch, useful for CI/headless environments ([#42])
 - GitHub Actions CI testing Ruby 3.0, 3.1, 3.2, 3.3, and head ([#52])
 - CI status badge and RubyGems version badge in README ([#52])
 - LICENSE.txt file (MIT License)

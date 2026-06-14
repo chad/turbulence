@@ -31,6 +31,7 @@ class Turbulence
       :directory,
       :graph_type,
       :exclusion_pattern,
+      :no_open,
     ]
 
     def copy_templates_into(directory)

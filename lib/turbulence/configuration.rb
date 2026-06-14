@@ -9,6 +9,7 @@ class Turbulence
       :exclusion_pattern,
       :graph_type,
       :output,
+      :no_open,
     ]
 
     def initialize
@@ -16,6 +17,7 @@ class Turbulence
       @graph_type = 'turbulence'
       @scm_name   = 'Git'
       @output     = STDOUT
+      @no_open    = false
     end
 
     # TODO: drop attr accessor and ivar once it stops getting set via Churn
