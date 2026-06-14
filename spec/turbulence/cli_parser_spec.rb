@@ -10,31 +10,31 @@ describe Turbulence::CommandLineInterface::ConfigParser do
 
   it "sets directory" do
     parse %w( path/to/compute )
-    config.directory.should == 'path/to/compute'
+    expect(config.directory).to eq 'path/to/compute'
   end
 
   it "sets SCM name to 'Perforce'" do
     parse %w( --scm p4 )
-    config.scm_name.should == 'Perforce'
+    expect(config.scm_name).to eq 'Perforce'
   end
 
   it "sets commit range" do
     parse %w( --churn-range f3e1d7a6..830b9d3d9f )
-    config.commit_range.should eq('f3e1d7a6..830b9d3d9f')
+    expect(config.commit_range).to eq 'f3e1d7a6..830b9d3d9f'
   end
 
   it "sets compute mean" do
     parse %w( --churn-mean )
-    config.compute_mean.should be_true
+    expect(config.compute_mean).to be true
   end
 
   it "sets the exclusion pattern" do
     parse %w( --exclude turbulence )
-    config.exclusion_pattern.should == 'turbulence'
+    expect(config.exclusion_pattern).to eq 'turbulence'
   end
 
   it "sets the graph type" do
     parse %w( --treemap )
-    config.graph_type.should == 'treemap'
+    expect(config.graph_type).to eq 'treemap'
   end
 end

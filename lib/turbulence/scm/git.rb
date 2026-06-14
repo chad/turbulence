@@ -8,7 +8,7 @@ class Turbulence
 
         def is_repo?(directory)
           FileUtils.cd(directory) {
-            return !(`git status 2>&1` =~ /Not a git repository/)
+            return !(`git status 2>&1` =~ /not a git repository/i)
           }
         end
       end

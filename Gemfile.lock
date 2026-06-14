@@ -2,38 +2,84 @@ PATH
   remote: .
   specs:
     turbulence (1.2.4)
-      flog (~> 4.1)
-      json (>= 1.4.6)
+      flog (>= 4.1)
+      json
       launchy (>= 2.0.0)
+      racc
 
 GEM
   remote: http://rubygems.org/
   specs:
-    addressable (2.3.6)
-    diff-lcs (1.2.5)
-    flog (4.2.1)
-      ruby_parser (~> 3.1, > 3.1.0)
-      sexp_processor (~> 4.4)
-    json (1.8.1)
-    launchy (2.4.2)
-      addressable (~> 2.3)
-    rake (10.1.0)
-    rspec (2.14.1)
-      rspec-core (~> 2.14.0)
-      rspec-expectations (~> 2.14.0)
-      rspec-mocks (~> 2.14.0)
-    rspec-core (2.14.7)
-    rspec-expectations (2.14.4)
-      diff-lcs (>= 1.1.3, < 2.0)
-    rspec-mocks (2.14.4)
-    ruby_parser (3.6.1)
-      sexp_processor (~> 4.1)
-    sexp_processor (4.4.3)
+    addressable (2.9.0)
+      public_suffix (>= 2.0.2, < 8.0)
+    childprocess (5.1.0)
+      logger (~> 1.5)
+    diff-lcs (1.6.2)
+    flog (4.9.4)
+      path_expander (~> 2.0)
+      prism (~> 1.7)
+      sexp_processor (~> 4.8)
+    json (2.19.9)
+    launchy (3.1.1)
+      addressable (~> 2.8)
+      childprocess (~> 5.0)
+      logger (~> 1.6)
+    logger (1.7.0)
+    path_expander (2.0.1)
+    prism (1.9.0)
+    public_suffix (7.0.5)
+    racc (1.8.1)
+    rake (13.4.2)
+    rspec (3.13.2)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.6)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-its (2.0.0)
+      rspec-core (>= 3.13.0)
+      rspec-expectations (>= 3.13.0)
+    rspec-mocks (3.13.8)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.7)
+    sexp_processor (4.17.5)
 
 PLATFORMS
+  arm64-darwin-25
   ruby
 
 DEPENDENCIES
   rake
-  rspec (~> 2.14.0)
+  rspec (~> 3.0)
+  rspec-its
   turbulence!
+
+CHECKSUMS
+  addressable (2.9.0) sha256=7fdf6ac3660f7f4e867a0838be3f6cf722ace541dd97767fa42bc6cfa980c7af
+  bundler (4.0.13) sha256=19f08be7f27022cf0b89f27da0b044ae075e8270a9ef44ad248a932614e1ca3b
+  childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
+  diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
+  flog (4.9.4) sha256=12cc054fab7a2cbd2a906514397c4d7788954d530564782d6f14939dc2dfbcbb
+  json (2.19.9) sha256=9b9025b7cdddafa38d316eca0b2358488e42d417045c1b90d216a9fefe46b79a
+  launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
+  logger (1.7.0) sha256=196edec7cc44b66cfb40f9755ce11b392f21f7967696af15d274dde7edff0203
+  path_expander (2.0.1) sha256=2de201164bff4719cc4d0b3767286e9977cc832a59c4d70abab571ec86cb41e4
+  prism (1.9.0) sha256=7b530c6a9f92c24300014919c9dcbc055bf4cdf51ec30aed099b06cd6674ef85
+  public_suffix (7.0.5) sha256=1a8bb08f1bbea19228d3bed6e5ed908d1cb4f7c2726d18bd9cadf60bc676f623
+  racc (1.8.1) sha256=4a7f6929691dbec8b5209a0b373bc2614882b55fc5d2e447a21aaa691303d62f
+  rake (13.4.2) sha256=cb825b2bd5f1f8e91ca37bddb4b9aaf345551b4731da62949be002fa89283701
+  rspec (3.13.2) sha256=206284a08ad798e61f86d7ca3e376718d52c0bc944626b2349266f239f820587
+  rspec-core (3.13.6) sha256=a8823c6411667b60a8bca135364351dda34cd55e44ff94c4be4633b37d828b2d
+  rspec-expectations (3.13.5) sha256=33a4d3a1d95060aea4c94e9f237030a8f9eae5615e9bd85718fe3a09e4b58836
+  rspec-its (2.0.0) sha256=a88e8bc38149f2835e93533591ec4f5c829aacbfd41269a2e6f9f5b82f5260df
+  rspec-mocks (3.13.8) sha256=086ad3d3d17533f4237643de0b5c42f04b66348c28bf6b9c2d3f4a3b01af1d47
+  rspec-support (3.13.7) sha256=0640e5570872aafefd79867901deeeeb40b0c9875a36b983d85f54fb7381c47c
+  sexp_processor (4.17.5) sha256=ae2b48ba98353d5d465ce8759836b7a05f2e12c5879fcd14d7815b026de32f0e
+  turbulence (1.2.4)
+
+BUNDLED WITH
+  4.0.13
