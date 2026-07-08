@@ -14,6 +14,8 @@ class Turbulence
     TEMPLATE_FILES = [
       'turbulence.html',
       'highcharts.js',
+      'highcharts-heatmap.js',
+      'highcharts-treemap.js',
       'jquery.min.js',
       'treemap.html',
     ].map do |filename|

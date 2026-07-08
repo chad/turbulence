@@ -21,16 +21,20 @@ class Turbulence
       def build_js
         clean_metrics_from_missing_data
 
-        output = "var treemap_data = [['File', 'Parent', 'Churn (size)', 'Complexity (color)'],\n"
-        output << "['Root', null, 0, 0],\n"
-
-        @metrics_hash.each do |file|
-          output << "['#{file[0]}', 'Root', #{file[1][@x_metric]}, #{file[1][@y_metric]}],\n"
+        # Build Highcharts treemap data format
+        data = @metrics_hash.map do |filename, metrics|
+          churn = metrics[@x_metric] || 0
+          complexity = metrics[@y_metric] || 0
+          # Ensure minimum value of 1 for churn to avoid zero-size boxes
+          churn = 1 if churn.zero?
+          {
+            name: filename,
+            value: churn,
+            colorValue: complexity
+          }
         end
 
-        output << "];"
-
-        output
+        "var treemap_data = #{data.to_json};"
       end
 
       private
