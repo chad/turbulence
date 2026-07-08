@@ -1,89 +1,117 @@
 <html>
-  <head>
-    <script src="treemap_data.js"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
-      google.load("visualization", "1", {packages:["treemap"]});
-      google.setOnLoadCallback(drawChart);
-      function drawChart() {
-        // Create and populate the data table.
-        var data = google.visualization.arrayToDataTable(treemap_data);
-
-        // Create and draw the visualization.
-        var tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
-        tree.draw(data, {
-          minColor: '#0d0',
-          midColor: '#ddd',
-          maxColor: '#f00',
-          headerHeight: 15,
-          fontColor: 'black',
-          showScale: true,
-          showTooltips: true});
+<head>
+  <script src="jquery.min.js"></script>
+  <script src="highcharts.js"></script>
+  <script src="highcharts-heatmap.js"></script>
+  <script src="highcharts-treemap.js"></script>
+  <script src="treemap_data.js"></script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      margin: 20px;
+    }
+    h1 {
+      font-size: 1.5em;
+      margin-bottom: 0.5em;
+    }
+    .legend {
+      display: flex;
+      gap: 30px;
+      margin-bottom: 15px;
+      font-size: 14px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .legend-icon {
+      width: 20px;
+      height: 20px;
+      border: 1px solid #ccc;
+    }
+    .legend-icon.size-large { width: 24px; height: 24px; background: #888; }
+    .legend-icon.size-small { width: 12px; height: 12px; background: #888; }
+    .color-gradient {
+      width: 80px;
+      height: 20px;
+      background: linear-gradient(to right, #0d0, #ddd, #f00);
+    }
+    .tip {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background: #fffbe6;
+      border-left: 4px solid #f90;
+      font-size: 13px;
+      max-width: 900px;
+    }
+  </style>
+  <script>
+$(document).ready(function() {
+  Highcharts.chart('container', {
+    chart: {
+      backgroundColor: '#fff'
+    },
+    colorAxis: {
+      minColor: '#0d0',
+      maxColor: '#f00',
+      labels: {
+        enabled: false
+      }
+    },
+    title: {
+      text: null
+    },
+    tooltip: {
+      formatter: function() {
+        return '<b>' + this.point.name + '</b><br/>' +
+               'churn: ' + this.point.value + '<br/>' +
+               'complexity: ' + this.point.colorValue.toFixed(1);
+      }
+    },
+    series: [{
+      type: 'treemap',
+      layoutAlgorithm: 'squarified',
+      colorKey: 'colorValue',
+      data: treemap_data,
+      dataLabels: {
+        enabled: true,
+        style: {
+          textOverflow: 'ellipsis',
+          fontSize: '11px',
+          fontWeight: 'normal'
         }
-    </script>
-    <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-        margin: 20px;
-      }
-      h1 {
-        font-size: 1.5em;
-        margin-bottom: 0.5em;
-      }
-      .legend {
-        display: flex;
-        gap: 30px;
-        margin-bottom: 15px;
-        font-size: 14px;
-      }
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .legend-icon {
-        width: 20px;
-        height: 20px;
-        border: 1px solid #ccc;
-      }
-      .legend-icon.size-large { width: 24px; height: 24px; background: #888; }
-      .legend-icon.size-small { width: 12px; height: 12px; background: #888; }
-      .color-gradient {
-        width: 80px;
-        height: 20px;
-        background: linear-gradient(to right, #0d0, #ddd, #f00);
-      }
-      .tip {
-        margin-top: 15px;
-        padding: 10px 15px;
-        background: #fffbe6;
-        border-left: 4px solid #f90;
-        font-size: 13px;
-        max-width: 900px;
-      }
-    </style>
-  </head>
-
-  <body>
-    <h1>Churn vs Complexity Treemap</h1>
-    <div class="legend">
-      <div class="legend-item">
-        <strong>Size</strong> = Churn (how often the file changes)
-        <span class="legend-icon size-large"></span>
-        <span style="font-size: 12px;">more</span>
-        <span class="legend-icon size-small"></span>
-        <span style="font-size: 12px;">less</span>
-      </div>
-      <div class="legend-item">
-        <strong>Color</strong> = Complexity
-        <div class="color-gradient"></div>
-        <span style="font-size: 12px;">low → high</span>
-      </div>
+      },
+      levels: [{
+        level: 1,
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    }]
+  });
+});
+  </script>
+</head>
+<body>
+  <h1>Churn vs Complexity Treemap</h1>
+  <div class="legend">
+    <div class="legend-item">
+      <strong>Size</strong> = Churn (how often the file changes)
+      <span class="legend-icon size-large"></span>
+      <span style="font-size: 12px;">more</span>
+      <span class="legend-icon size-small"></span>
+      <span style="font-size: 12px;">less</span>
     </div>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-    <div class="tip">
-      <strong>Tip:</strong> Look for <strong>big red boxes</strong> — these are high-churn, high-complexity files and prime candidates for refactoring.
-      Click to zoom in, right-click to zoom out.
+    <div class="legend-item">
+      <strong>Color</strong> = Complexity
+      <div class="color-gradient"></div>
+      <span style="font-size: 12px;">low → high</span>
     </div>
-  </body>
+  </div>
+  <div id="container" style="width: 900px; height: 500px;"></div>
+  <div class="tip">
+    <strong>Tip:</strong> Look for <strong>big red boxes</strong> — these are high-churn, high-complexity files and prime candidates for refactoring.
+    Hover over boxes to see details.
+  </div>
+</body>
 </html>
