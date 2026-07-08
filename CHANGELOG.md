@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Legend and usage tips to treemap view explaining size=churn, color=complexity ([#64])
+- Title and usage tips to scatter plot view ([#65])
+
+### Changed
+- Update Highcharts from v2.1.3 to v13.0.0, fixing tooltip detection at chart edges ([#65])
+
+### Fixed
+- Scatter plot tooltips now work reliably for all data points, including edge cases ([#65])
 
 ## [1.3.0] - 2026-06-13
 
@@ -185,6 +192,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/chad/turbulence/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/chad/turbulence/releases/tag/0.0.2
 
+[#65]: https://github.com/chad/turbulence/pull/65
 [#64]: https://github.com/chad/turbulence/pull/64
 [#58]: https://github.com/chad/turbulence/pull/58
 [#56]: https://github.com/chad/turbulence/pull/56
