@@ -19,6 +19,8 @@ describe Turbulence::CommandLineInterface do
     it "bundles the files" do
       cli.generate_bundle
       expect(Dir.glob('turbulence/*').sort).to eq(["turbulence/cc.js",
+                                                   "turbulence/highcharts-heatmap.js",
+                                                   "turbulence/highcharts-treemap.js",
                                                    "turbulence/highcharts.js",
                                                    "turbulence/jquery.min.js",
                                                    "turbulence/treemap.html",
@@ -38,6 +40,8 @@ describe Turbulence::CommandLineInterface do
       cli = Turbulence::CommandLineInterface.new(['--output', custom_dir], :output => nil)
       cli.generate_bundle
       expect(Dir.glob("#{custom_dir}/*").sort).to eq(["#{custom_dir}/cc.js",
+                                                       "#{custom_dir}/highcharts-heatmap.js",
+                                                       "#{custom_dir}/highcharts-treemap.js",
                                                        "#{custom_dir}/highcharts.js",
                                                        "#{custom_dir}/jquery.min.js",
                                                        "#{custom_dir}/treemap.html",
