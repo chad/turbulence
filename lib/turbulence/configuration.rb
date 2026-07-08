@@ -11,15 +11,17 @@ class Turbulence
       :output,
       :output_dir,
       :no_open,
+      :json_output,
     ]
 
     def initialize
-      @directory  = Dir.pwd
-      @graph_type = 'turbulence'
-      @scm_name   = 'Git'
-      @output     = STDOUT
-      @output_dir = nil
-      @no_open    = false
+      @directory    = Dir.pwd
+      @graph_type   = 'turbulence'
+      @scm_name     = 'Git'
+      @output       = STDOUT
+      @output_dir   = nil
+      @no_open      = false
+      @json_output  = false
     end
 
     # TODO: drop attr accessor and ivar once it stops getting set via Churn

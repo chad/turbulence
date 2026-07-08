@@ -39,6 +39,10 @@ class Turbulence
             config.output_dir = dir
           end
 
+          opts.on('--json', 'output raw metrics as JSON to stdout') do
+            config.json_output = true
+          end
+
           opts.on_tail("-h", "--help", "Show this message") do
             puts opts
             exit

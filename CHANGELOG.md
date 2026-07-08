@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `--json` flag to output raw metrics as JSON to stdout for scripting and CI integration ([#68])
 - Legend and usage tips to treemap view explaining size=churn, color=complexity ([#64])
 - Title and usage tips to scatter plot view ([#65])
 
@@ -193,6 +194,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/chad/turbulence/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/chad/turbulence/releases/tag/0.0.2
 
+[#68]: https://github.com/chad/turbulence/pull/68
 [#66]: https://github.com/chad/turbulence/pull/66
 [#65]: https://github.com/chad/turbulence/pull/65
 [#64]: https://github.com/chad/turbulence/pull/64
