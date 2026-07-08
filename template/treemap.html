@@ -53,8 +53,11 @@ $(document).ready(function() {
       backgroundColor: '#fff'
     },
     colorAxis: {
-      minColor: '#0d0',
-      maxColor: '#f00',
+      stops: [
+        [0, '#0d0'],
+        [0.5, '#ddd'],
+        [1, '#f00']
+      ],
       labels: {
         enabled: false
       }
