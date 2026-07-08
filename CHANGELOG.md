@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Update Highcharts from v2.1.3 to v13.0.0, fixing tooltip detection at chart edges ([#65])
+- Replace Google Charts with Highcharts for treemap visualization, removing CDN dependency ([#66])
 
 ### Fixed
 - Scatter plot tooltips now work reliably for all data points, including edge cases ([#65])
@@ -192,6 +193,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/chad/turbulence/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/chad/turbulence/releases/tag/0.0.2
 
+[#66]: https://github.com/chad/turbulence/pull/66
 [#65]: https://github.com/chad/turbulence/pull/65
 [#64]: https://github.com/chad/turbulence/pull/64
 [#58]: https://github.com/chad/turbulence/pull/58
