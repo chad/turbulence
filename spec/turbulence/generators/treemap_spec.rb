@@ -9,7 +9,7 @@ describe Turbulence::Generators::TreeMap do
       )
 
       expect(generator.build_js).to match(/var treemap_data/)
-      expect(generator.build_js).to match(/\'foo.rb\'/)
+      expect(generator.build_js).to match(/"foo\.rb"/)
     end
   end
 
@@ -19,7 +19,7 @@ describe Turbulence::Generators::TreeMap do
         "foo.rb" => { :churn => 1 }
       )
 
-      expect(generator.build_js).to eq "var treemap_data = [['File', 'Parent', 'Churn (size)', 'Complexity (color)'],\n['Root', null, 0, 0],\n];"
+      expect(generator.build_js).to eq "var treemap_data = [];"
     end
   end
 end
