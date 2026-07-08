@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Legend and usage tips to treemap view explaining size=churn, color=complexity ([#64])
+
 ## [1.3.0] - 2026-06-13
 
 ### Added
@@ -182,6 +185,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 [0.0.3]: https://github.com/chad/turbulence/compare/0.0.2...0.0.3
 [0.0.2]: https://github.com/chad/turbulence/releases/tag/0.0.2
 
+[#64]: https://github.com/chad/turbulence/pull/64
 [#58]: https://github.com/chad/turbulence/pull/58
 [#56]: https://github.com/chad/turbulence/pull/56
 [#54]: https://github.com/chad/turbulence/pull/54
