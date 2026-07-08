@@ -49,9 +49,15 @@ class Turbulence
       def file_metrics_for_directory(metrics_hash)
         metrics_hash.map do |filename, metrics|
           { :filename => filename,
-            :x        => metrics[x_metric],
-            :y        => metrics[y_metric]}
+            :x        => ensure_minimum(metrics[x_metric]),
+            :y        => ensure_minimum(metrics[y_metric])}
         end
+      end
+
+      # Offset zero values slightly to avoid Highcharts tooltip detection
+      # issues at the chart edge (bug in Highcharts 2.x)
+      def ensure_minimum(value)
+        value.zero? ? 1 : value
       end
 
       def generate_results(metrics, ci)
