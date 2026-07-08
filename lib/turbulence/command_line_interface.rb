@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'json'
 require 'launchy'
 require 'optparse'
 require 'forwardable'
@@ -33,6 +34,7 @@ class Turbulence
       :exclusion_pattern,
       :no_open,
       :output_dir,
+      :json_output,
     ]
 
     def output_path
@@ -44,6 +46,21 @@ class Turbulence
     end
 
     def generate_bundle
+      if json_output
+        generate_json
+      else
+        generate_html
+      end
+    end
+
+    def generate_json
+      # Suppress progress output for clean JSON
+      config.output = nil
+      turb = Turbulence.new(config)
+      puts JSON.pretty_generate(turb.metrics)
+    end
+
+    def generate_html
       FileUtils.mkdir_p(output_path)
 
       Dir.chdir(output_path) do

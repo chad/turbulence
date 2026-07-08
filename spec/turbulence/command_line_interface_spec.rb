@@ -46,6 +46,22 @@ describe Turbulence::CommandLineInterface do
     end
   end
 
+  describe "#generate_json" do
+    before do
+      Turbulence.instance_variable_set(:@config, nil)
+    end
+
+    it "outputs valid JSON to stdout" do
+      cli = Turbulence::CommandLineInterface.new(%w(--json), :output => nil)
+      expect { cli.generate_bundle }.to output(/\{.*"complexity".*"churn".*\}/m).to_stdout
+    end
+
+    it "suppresses progress output" do
+      cli = Turbulence::CommandLineInterface.new(%w(--json), :output => nil)
+      expect { cli.generate_bundle }.not_to output(/calculating metric/).to_stdout
+    end
+  end
+
   describe "#output_path" do
     before do
       # Reset the singleton config between tests
